@@ -1,0 +1,132 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context="com.emzi0767.r6stratroulette.OperatorRandomizerFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_sword" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/randomop_lbl_attacker"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginStart="4dp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/randomop_attacker_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="6dp" />
+
+            <TextView
+                android:id="@+id/randomop_attacker_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/randomop_attacker_ctu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:lines="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_shield" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/randomop_lbl_defender"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginStart="4dp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/randomop_defender_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="6dp" />
+
+            <TextView
+                android:id="@+id/randomop_defender_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/randomop_defender_ctu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:lines="2" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/randomop_randomize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/randomop_btn_randomize"
+        android:textSize="24sp"
+        android:layout_margin="6dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorForeground" />
+
+</LinearLayout>

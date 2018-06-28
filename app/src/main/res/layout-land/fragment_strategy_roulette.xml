@@ -1,0 +1,128 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    tools:context="com.emzi0767.r6stratroulette.StrategyRouletteFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/strats_lbl_stratname"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/stratroulette_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:layout_marginTop="6dp"
+            android:lines="2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/strats_lbl_stratdesc"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/stratroulette_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:layout_marginTop="6dp" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:columnCount="2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_columnWeight="1"
+                android:layout_column="0">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/strats_lbl_side"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center" />
+
+                <Spinner
+                    android:id="@+id/strats_side"
+                    android:layout_width="192dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_columnWeight="1"
+                android:layout_column="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/strats_lbl_mode"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center" />
+
+                <Spinner
+                    android:id="@+id/strats_mode"
+                    android:layout_width="192dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </GridLayout>
+
+        <Button
+            android:id="@+id/stratroulette_randomize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/randomop_btn_randomize"
+            android:textSize="24sp"
+            android:layout_margin="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/btn_colors" />
+
+    </LinearLayout>
+
+</LinearLayout>

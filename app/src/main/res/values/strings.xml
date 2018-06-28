@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">R6: Strat Roulette</string>
+    <string name="app_title">Strat Roulette</string>
+
+    <!-- MENU ITEMS -->
+    <string name="navdraw_opt_home">Home</string>
+    <string name="navdraw_opt_random_op">Operator Randomizer</string>
+    <string name="navdraw_opt_random_team">Team Randomizer</string>
+    <string name="navdraw_opt_recruit_builder">Recruit Randomizer</string>
+    <string name="navdraw_opt_recruit_team">Recruit Team Builder</string>
+    <string name="navdraw_opt_strat_roulette">Strategy Roulette</string>
+    <string name="navdraw_opt_about">About</string>
+    <string name="navdraw_opt_exit">Exit</string>
+
+    <!-- TITLES -->
+    <string name="frag_home">R6: Strat Roulette</string>
+    <string name="frag_random_op">Operator Randomizer</string>
+    <string name="frag_random_team">Team Randomizer</string>
+    <string name="frag_recruit_builder">Recruit Randomizer</string>
+    <string name="frag_recruit_team">Recruit Team Builder</string>
+    <string name="frag_strat_roulette">Strategy Roulette</string>
+    <string name="frag_about">About</string>
+
+    <!-- HOME -->
+    <string name="home_howto">To begin, open the navigation drawer, and select one of the options.</string>
+
+    <!-- ABOUT -->
+    <string name="about_author">Created by Emzi0767</string>
+    <string name="about_author_contact">reddit: /u/eMZi0767; Discord: Emzi0767#1837; www: emzi0767.com</string>
+    <string name="about_source"><a href="https://github.com/Emzi0767/R6-Strat-Roulette">Source code on GitHub</a></string>
+    <string name="about_credits">Credits and Acknowledgments</string>
+    <string name="about_ubi_assets">This application uses assets from Rainbow 6: Siege by Ubisoft. These assets are intellectual property of Ubisoft. All rights are reserved.</string>
+    <string name="about_credits_1"><a href="https://redd.it/4kc0a5">/u/thebloopergamer</a></string>
+    <string name="about_credits_2"><a href="https://redd.it/405c8z">/u/randomsiege</a></string>
+    <string name="about_credits_3"><a href="https://r6.quickbrownfoxes.org/">r6.quickbrownfoxes.org</a></string>
+
+    <!-- ALERTS -->
+    <string name="activity_permissions">
+        The application will now request certain permissions, namely internet access, storage access, and network state access. These are used to download and update assets, store and read assets, and
+        check for internet connection, respectively.
+    </string>
+    <string name="activity_permissions_title">Permission request</string>
+    <string name="activity_permissions_affirmative">OK</string>
+    <string name="activity_permissions_negative">Cancel</string>
+    <string name="activity_permissions_denied">Requested permissions were denied</string>
+    <string name="activity_error">An error occurred in the application, which will now close. Sorry for the inconvenience.</string>
+    <string name="activity_error_title">Error</string>
+    <string name="activity_error_affirmative">OK</string>
+    <string name="activity_nointernet">Assets are not available, and there is no available Internet connection. Turn on your Internet connection and try again.</string>
+    <string name="activity_nointernet_title">No Internet</string>
+    <string name="activity_nointernet_affirmative">OK</string>
+    <string name="activity_loading_assets">Checking and updating assets</string>
+
+    <!-- OPERATOR RANDOMIZER -->
+    <string name="randomop_btn_randomize">Randomize</string>
+    <string name="randomop_lbl_attacker">Attacker</string>
+    <string name="randomop_lbl_defender">Defender</string>
+
+    <!-- TEAM RANDOMIZER -->
+    <string name="randomteam_btn_randomize">Randomize</string>
+    <string name="randomteam_lbl_attackers">Attackers</string>
+    <string name="randomteam_lbl_defenders">Defenders</string>
+
+    <!-- RECRUIT RANDOMIZER -->
+    <string name="randomrecruit_btn_randomize">Randomize</string>
+    <string name="randomrecruit_lbl_attacker">Attacker</string>
+    <string name="randomrecruit_lbl_defender">Defender</string>
+    <string name="randomrecruit_lbl_weapon1">Primary weapon</string>
+    <string name="randomrecruit_lbl_weapon2">Secondary weapon</string>
+    <string name="randomrecruit_lbl_gadget1">Primary gadget</string>
+    <string name="randomrecruit_lbl_gadget2">Secondary gadget</string>
+    <string name="randomrecruit_none">None yet</string>
+
+    <!-- STRATEGY ROULETTE -->
+    <string name="strats_btn_randomize">Randomize</string>
+    <string name="strats_lbl_side">Side</string>
+    <string name="strats_lbl_mode">Game Mode</string>
+    <string name="strats_side_atk">Attackers</string>
+    <string name="strats_side_def">Defenders</string>
+    <string name="strats_mode_area">Secure Area</string>
+    <string name="strats_mode_bomb">Bomb</string>
+    <string name="strats_mode_hostage">Hostage</string>
+    <string name="strats_lbl_stratname">Strategy Name</string>
+    <string name="strats_lbl_stratdesc">Strategy Description</string>
+    <string name="strats_nostrat_1">Nothing yet</string>
+    <string name="strats_nostrat_2">To begin, select side and game mode, then press randomize.</string>
+
+    <string-array name="strats_side_options">
+        <item>Select</item>
+        <item>@string/strats_side_atk</item>
+        <item>@string/strats_side_def</item>
+    </string-array>
+
+    <string-array name="strats_mode_options">
+        <item>Select</item>
+        <item>@string/strats_mode_area</item>
+        <item>@string/strats_mode_bomb</item>
+        <item>@string/strats_mode_hostage</item>
+    </string-array>
+
+</resources>

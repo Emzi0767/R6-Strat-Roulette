@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_drawer_home"
+            android:title="@string/navdraw_opt_home"
+            android:icon="@drawable/ic_home" />
+        <item
+            android:id="@+id/nav_drawer_random_op"
+            android:title="@string/navdraw_opt_random_op"
+            android:icon="@drawable/ic_person"  />
+        <item
+            android:id="@+id/nav_drawer_random_team"
+            android:title="@string/navdraw_opt_random_team"
+            android:icon="@drawable/ic_people"  />
+        <item
+            android:id="@+id/nav_drawer_recruit_builder"
+            android:title="@string/navdraw_opt_recruit_builder"
+            android:icon="@drawable/ic_person_outline"  />
+        <!-- <item
+            android:id="@+id/nav_drawer_recruit_team"
+            android:title="@string/navdraw_opt_recruit_team"
+            android:icon="@drawable/ic_people_outline" /> -->
+        <item
+            android:id="@+id/nav_drawer_strat_roulette"
+            android:title="@string/navdraw_opt_strat_roulette"
+            android:icon="@drawable/ic_casino" />
+        <item
+            android:id="@+id/nav_drawer_about"
+            android:title="@string/navdraw_opt_about"
+            android:icon="@drawable/ic_info" />
+        <item
+            android:id="@+id/nav_drawer_exit"
+            android:title="@string/navdraw_opt_exit"
+            android:icon="@drawable/ic_exit" />
+    </group>
+</menu>
