@@ -53,12 +53,12 @@ complete, the application is installed. Upon first launch give the application a
 let it download its assets.
 
 ## Screenshots
-[![Main screen](https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png)](https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png)
-[![Navigation drawer](https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.png)](https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.png)
-[![Operator randomizer](https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.png)](https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.png)
-[![Team randomizer](https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png)](https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png)
-[![Recruit randomizer](https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png)](https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png)
-[![Strat roulette](https://static.emzi0767.com/r6strats/screenshots/06_strat_roulette.png)](https://static.emzi0767.com/r6strats/screenshots/06_strat_roulette.png)
+<a href="https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png"><img src="https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png" width="30%" alt="Main screen"></a>
+<a href="https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.png"><img src="https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer" width="30%" alt="Navigation drawer"></a>
+<a href="https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.png"><img src="https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.png" width="30%" alt="Operator randomizer"></a>
+<a href="https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png"><img src="https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png" width="30%" alt="Team randomizer"></a>
+<a href="https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png"><img src="https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png" width="30%" alt="Recruit randomizer"></a>
+<a href="https://static.emzi0767.com/r6strats/screenshots/06_strat_roulette.png"><img src="https://static.emzi0767.com/r6strats/screenshots/06_strat_roulette.png" width="30%" alt="Strat roulette"></a>
 
 ## Contact
 If you find bugs or other issues, or simply have suggestions, make sure to open an issue. I'll try 
