@@ -54,7 +54,7 @@ let it download its assets.
 
 ## Screenshots
 <a href="https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png"><img src="https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png" width="30%" alt="Main screen"></a>
-<a href="https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.png"><img src="https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer" width="30%" alt="Navigation drawer"></a>
+<a href="https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.png"><img src="https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.png" width="30%" alt="Navigation drawer"></a>
 <a href="https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.png"><img src="https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.png" width="30%" alt="Operator randomizer"></a>
 <a href="https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png"><img src="https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png" width="30%" alt="Team randomizer"></a>
 <a href="https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png"><img src="https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png" width="30%" alt="Recruit randomizer"></a>
