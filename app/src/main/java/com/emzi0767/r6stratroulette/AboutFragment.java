@@ -17,10 +17,12 @@
 package com.emzi0767.r6stratroulette;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +31,17 @@ public class AboutFragment extends Fragment {
 
     public AboutFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (this.getActivity().getPackageName().endsWith(".debug")) {
+            View v = this.getView();
+            TextView tv = v.findViewById(R.id.about_name);
+            tv.setText("DEBUG BUILD - DO NOT USE IN PROD");
+        }
     }
 
     @Override

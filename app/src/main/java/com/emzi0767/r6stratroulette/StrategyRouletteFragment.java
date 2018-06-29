@@ -120,8 +120,7 @@ public class StrategyRouletteFragment extends Fragment {
             this.setStrategy(i);
         });
 
-        ArrayAdapter<CharSequence> adapterSide = ArrayAdapter.createFromResource(this.getContext(), R.array.strats_side_options, android.R.layout.simple_spinner_dropdown_item);
-        adapterSide.setDropDownViewResource(R.layout.spinner_item);
+        ArrayAdapter<String> adapterSide = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_item, this.getResources().getStringArray(R.array.strats_side_options));
         this.comboSide.setAdapter(adapterSide);
         this.comboSide.setSelection(0);
         this.comboSide.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -154,7 +153,7 @@ public class StrategyRouletteFragment extends Fragment {
             }
         });
 
-        ArrayAdapter<CharSequence> adapterMode = ArrayAdapter.createFromResource(this.getContext(), R.array.strats_mode_options, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterMode = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_item, this.getResources().getStringArray(R.array.strats_mode_options));
         adapterMode.setDropDownViewResource(R.layout.spinner_item);
         this.comboMode.setAdapter(adapterMode);
         this.comboMode.setSelection(0);

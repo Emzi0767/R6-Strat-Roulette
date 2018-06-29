@@ -21,7 +21,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="18sp"
+    android:textSize="22sp"
     android:textColor="@color/colorForeground"
     android:background="@color/colorBackground"
-    android:padding="6dp" />
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp" />
