@@ -52,6 +52,14 @@ Windows, or `./adb install r6-strat-roulette-vx.y.apk` if you're on GNU/Linux. O
 complete, the application is installed. Upon first launch give the application a minute or so to 
 let it download its assets.
 
+## Screenshots
+[![Main screen](https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png)](https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png)
+[![Navigation drawer](https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.png)](https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.png)
+[![Operator randomizer](https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.png)](https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.png)
+[![Team randomizer](https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png)](https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png)
+[![Recruit randomizer](https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png)](https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png)
+[![Strat roulette](https://static.emzi0767.com/r6strats/screenshots/06_strat_roulette.png)](https://static.emzi0767.com/r6strats/screenshots/06_strat_roulette.png)
+
 ## Contact
 If you find bugs or other issues, or simply have suggestions, make sure to open an issue. I'll try 
 to make sure that I check them as often as possible.
