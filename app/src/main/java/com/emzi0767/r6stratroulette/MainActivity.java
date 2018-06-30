@@ -41,6 +41,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+import com.emzi0767.r6stratroulette.data.Progress;
 import com.emzi0767.r6stratroulette.data.URLs;
 import com.emzi0767.r6stratroulette.models.RouletteData;
 import com.google.gson.Gson;
@@ -79,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
         randomRecruit = null;
 
     private static final int PERMISSION_INTERNET = 32;
-    private static final int PERMISSION_READ_STORAGE = 64;
-    private static final int PERMISSION_WRITE_STORAGE = 128;
     private static final int PERMISSION_NETWORK_STATE = 256;
 
     @Override
@@ -150,9 +149,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> reqPerms = new ArrayList<>();
         String[] perms = new String[] {
             Manifest.permission.INTERNET,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.ACCESS_NETWORK_STATE
         };
         for (String perm : perms) {
             if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED)
@@ -184,13 +181,8 @@ public class MainActivity extends AppCompatActivity {
         // Load data, if possible
         if (this.rouletteData == null) {
             try {
-                File[] caches = ContextCompat.getExternalCacheDirs(this);
-                if (caches.length == 0) {
-                    this.showErrorDialog(new Exception("No external storage available"));
-                    return;
-                }
-                File sdcard = new File(caches[0], "assets");
-                this.assetLocation = sdcard;
+                File assetDir = new File(ContextCompat.getDataDir(this), "assets");
+                this.assetLocation = assetDir;
 
                 Gson gson = new Gson();
                 File data = new File(this.assetLocation, "data.json");
@@ -211,6 +203,14 @@ public class MainActivity extends AppCompatActivity {
         // Set main view to home
         ActionBar actionBar = this.getSupportActionBar();
         this.setView(this.mActiveView, actionBar);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (this.progressDialog.isShowing())
+            this.progressDialog.dismiss();
+
+        super.onDestroy();
     }
 
     private void setView(int id, ActionBar actionBar) {
@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder adb = new AlertDialog.Builder(this, this.getAppropriateTheme());
 
         AlertDialog ad = adb.setTitle(R.string.activity_nointernet_title)
-                .setMessage(R.string.activity_nointernet)
+                .setMessage(R.string.activity_error)
                 .setCancelable(false)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(R.string.activity_nointernet_affirmative, (d, i) -> this.finish())
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder adb = new AlertDialog.Builder(this, this.getAppropriateTheme());
 
         AlertDialog ad = adb.setTitle(R.string.activity_error_title)
-                .setMessage(R.string.activity_error)
+                .setMessage(R.string.activity_nointernet)
                 .setCancelable(false)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(R.string.activity_error_affirmative, (d, i) -> this.finish())
@@ -301,7 +301,8 @@ public class MainActivity extends AppCompatActivity {
         this.progressDialog = new ProgressDialog(this, this.getAppropriateTheme());
         this.progressDialog.setMessage(this.getResources().getString(R.string.activity_loading_assets));
         this.progressDialog.setCancelable(false);
-        this.progressDialog.setIndeterminate(true);
+        this.progressDialog.setIndeterminate(false);
+        this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         this.progressDialog.show();
     }
 
@@ -310,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void releaseSemaphoreIfPermissionsGranted() {
-        if (this.grantedPermissions == (PERMISSION_INTERNET | PERMISSION_NETWORK_STATE | PERMISSION_READ_STORAGE | PERMISSION_WRITE_STORAGE))
+        if (this.grantedPermissions == (PERMISSION_INTERNET | PERMISSION_NETWORK_STATE))
             this.permissionSemaphore.countDown();
     }
 
@@ -322,14 +323,6 @@ public class MainActivity extends AppCompatActivity {
 
             case Manifest.permission.ACCESS_NETWORK_STATE:
                 this.grantedPermissions |= PERMISSION_NETWORK_STATE;
-                break;
-
-            case Manifest.permission.READ_EXTERNAL_STORAGE:
-                this.grantedPermissions |= PERMISSION_READ_STORAGE;
-                break;
-
-            case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                this.grantedPermissions |= PERMISSION_WRITE_STORAGE;
                 break;
         }
     }
@@ -364,38 +357,31 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             NetworkInfo ni = cm.getActiveNetworkInfo();
-            hasInternet = ni == null || ni.isConnected();
+            hasInternet = ni != null && ni.isConnected();
         }
 
-        // get the obb dir
-        File[] caches = ContextCompat.getExternalCacheDirs(this);
-        if (caches.length == 0) {
-            this.showErrorDialog(new Exception("No external storage available"));
-            return;
-        }
-        File sdcard = caches[0];
-        if (!this.checkDirectory(sdcard, hasInternet)) return;
-
-        // get asset dir and validate it
-        sdcard = new File(sdcard, "assets");
-        if (!this.checkDirectory(sdcard, hasInternet)) return;
-        this.assetLocation = sdcard;
+        // get the asset dir and validate it
+        File assetDir = new File(ContextCompat.getDataDir(this), "assets");
+        if (!this.checkDirectory(assetDir, hasInternet)) return;
+        this.assetLocation = assetDir;
 
         // create GSON reader
         Gson gson = new Gson();
 
         // load remote asset registry
         String assetsCurrent = null;
-        Map<String, String> assetsMapCurrent = new HashMap<>();
+        final HashMap<String, String> assetsMapCurrent = new HashMap<>();
         Type type = new TypeToken<HashMap<String, String>>() { }.getType();
         if (hasInternet) {
             URL assetsUrl = URLs.getAssetUrl("assets.json");
             assetsCurrent = IOUtils.toString(assetsUrl, "UTF-8");
-            assetsMapCurrent = gson.fromJson(assetsCurrent, type);
+            HashMap<String, String> tmp = gson.fromJson(assetsCurrent, type);
+            for (String k : tmp.keySet())
+                assetsMapCurrent.put(k, tmp.get(k));
         }
 
         // check asset registry
-        File assets = new File(sdcard, "assets.json");
+        File assets = new File(assetDir, "assets.json");
         HashMap<String, String> assetsMapLocal = new HashMap<>();
         if (!assets.exists() && !hasInternet) {
             this.runOnUiThread(this::showNoInternetDialog);
@@ -408,13 +394,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // see and update what's missing
+        Progress i = new Progress();
+        this.runOnUiThread(() -> {
+            this.progressDialog.setMax(assetsMapCurrent.size());
+            this.progressDialog.setProgress(0);
+        });
         for (String s : assetsMapCurrent.keySet()) {
-            File asset = new File(sdcard, s);
+            File asset = new File(assetDir, s);
             if (!assetsMapLocal.containsKey(s) || !assetsMapLocal.get(s).equals(assetsMapCurrent.get(s)) || !asset.exists()) {
                 URL assetUrl = URLs.getAssetUrl(s);
                 FileUtils.copyURLToFile(assetUrl, asset);
                 Log.i("R6Strats", String.format("Downloaded asset '%s' with a hash of '%s'", s, assetsMapCurrent.get(s)));
             }
+            this.runOnUiThread(() -> this.progressDialog.setProgress(i.incrementProgress()));
         }
 
         // write the current registry
@@ -422,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
             FileUtils.writeStringToFile(assets, assetsCurrent, "UTF-8");
 
         // load roulette data
-        File data = new File(sdcard, "data.json");
+        File data = new File(assetDir, "data.json");
         String dataJson = FileUtils.readFileToString(data, "UTF-8");
         this.rouletteData = gson.fromJson(dataJson, RouletteData.class);
 

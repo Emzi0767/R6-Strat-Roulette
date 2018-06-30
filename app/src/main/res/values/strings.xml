@@ -55,8 +55,8 @@
 
     <!-- ALERTS -->
     <string name="activity_permissions">
-        The application will now request certain permissions, namely internet access, storage access, and network state access. These are used to download and update assets, store and read assets, and
-        check for internet connection, respectively.
+        The application may request certain permissions, namely internet access, and network state access. These are used to download and update assets, and check for internet connection,
+        respectively.
     </string>
     <string name="activity_permissions_title">Permission request</string>
     <string name="activity_permissions_affirmative">OK</string>
