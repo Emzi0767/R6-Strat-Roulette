@@ -42,8 +42,10 @@ public class SettingsActivity extends AppCompatActivity {
     private HashSet<String> disabledOps;
     private ArrayList<OperatorSelection> opSelections;
     private OperatorSelection.Adapter opSelAdapter;
+    private boolean settingsSaved = false;
 
     private final ThreadPoolExecutor threadPool = (ThreadPoolExecutor)Executors.newFixedThreadPool(2);
+
     public static final String DISABLED_OPS_KEY = "disabled-ops";
 
     public SettingsActivity() {
@@ -88,24 +90,20 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        int atkC = 0, defC = 0;
-
-        for (OperatorSelection opSel : this.opSelections) {
-            atkC += opSel.getSide() && opSel.isEnabled() ? 1 : 0;
-            defC += !opSel.getSide() && opSel.isEnabled() ? 1 : 0;
-        }
-
-        if (atkC < 5 || defC < 5) {
-            Toast.makeText(this, this.getString(R.string.settings_ops_need_at_least_one), Toast.LENGTH_LONG).show();
-        } else {
-            SharedPreferences prefs = this.getSharedPreferences(this.getString(R.string.settings_filename), Context.MODE_PRIVATE);
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putStringSet(DISABLED_OPS_KEY, this.disabledOps);
-            edit.apply();
-        }
-
-        this.setResult(1);
+        this.saveSettings();
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        this.saveSettings();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onDestroy() {
+        this.saveSettings();
+        super.onDestroy();
     }
 
     private void loadOperatorSettings() {
@@ -135,5 +133,29 @@ public class SettingsActivity extends AppCompatActivity {
             else
                 this.disabledOps.remove(x.getName());
         });
+    }
+
+    private void saveSettings() {
+        if (this.settingsSaved)
+            return;
+
+        this.settingsSaved = true;
+        int atkC = 0, defC = 0;
+
+        for (OperatorSelection opSel : this.opSelections) {
+            atkC += opSel.getSide() && opSel.isEnabled() ? 1 : 0;
+            defC += !opSel.getSide() && opSel.isEnabled() ? 1 : 0;
+        }
+
+        if (atkC < 5 || defC < 5) {
+            Toast.makeText(this, this.getString(R.string.settings_ops_need_at_least_one), Toast.LENGTH_LONG).show();
+        } else {
+            SharedPreferences prefs = this.getSharedPreferences(this.getString(R.string.settings_filename), Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putStringSet(DISABLED_OPS_KEY, this.disabledOps);
+            edit.apply();
+        }
+
+        this.setResult(1);
     }
 }

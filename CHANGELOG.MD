@@ -1,8 +1,11 @@
 # Changelog for R6: Strat Roulette
 
+### v1.1.1 (released: 2018-07-12 20:18 +02:00)
+- FIX: Exiting settings via navigation bar back button now properly saves settings
+
 ### v1.1.0 (released: 2018-07-12 01:21 +02:00)
 - FIX: Bumped minimum required Android version to 5.0, as 4.4 does not support modern TLS versions 
-  required to download assets.
+  required to download assets
 - NEW: Settings menu
   - Settings allow you to control which operators are available to you
   - Operator randomization will not randomize from disabled operator pool
