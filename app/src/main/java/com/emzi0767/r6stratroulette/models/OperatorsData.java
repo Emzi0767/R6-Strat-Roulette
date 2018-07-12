@@ -16,20 +16,39 @@
 
 package com.emzi0767.r6stratroulette.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public final class OperatorsData {
+public final class OperatorsData implements Parcelable {
     @SerializedName("attackers")
     private List<OperatorData> attackers;
 
     @SerializedName("defenders")
     private List<OperatorData> defenders;
 
+    public static final Creator<OperatorsData> CREATOR = new Creator<OperatorsData>() {
+        @Override
+        public OperatorsData createFromParcel(Parcel in) {
+            return new OperatorsData(in);
+        }
+
+        @Override
+        public OperatorsData[] newArray(int size) {
+            return new OperatorsData[size];
+        }
+    };
+
     public OperatorsData() {
         this.attackers = null;
         this.defenders = null;
+    }
+
+    protected OperatorsData(Parcel in) {
+        this.attackers = in.createTypedArrayList(OperatorData.CREATOR);
+        this.defenders = in.createTypedArrayList(OperatorData.CREATOR);
     }
 
     public List<OperatorData> getAttackers() {
@@ -38,5 +57,16 @@ public final class OperatorsData {
 
     public List<OperatorData> getDefenders() {
         return defenders;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(this.attackers);
+        dest.writeTypedList(this.defenders);
     }
 }

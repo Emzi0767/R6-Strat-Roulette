@@ -20,6 +20,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -30,6 +31,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -252,6 +254,14 @@ public class MainActivity extends AppCompatActivity {
                 actionBar.setTitle(R.string.frag_strat_roulette);
                 t.replace(R.id.content_frame, this.strategyRoulette);
                 break;
+
+            case R.id.nav_drawer_settings:
+                t.commit();
+                Intent intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("rouletteData", this.rouletteData)
+                        .putExtra("assetLocation", this.assetLocation.getAbsolutePath());
+                ActivityCompat.startActivityForResult(this, intent, 1, null);
+                return;
 
             case R.id.nav_drawer_about:
                 if (this.about.isDetached())
@@ -504,11 +514,26 @@ public class MainActivity extends AppCompatActivity {
         this.releaseSemaphoreIfPermissionsGranted();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == 1) {
+            FragmentManager fm = this.getSupportFragmentManager();
+            Fragment f = fm.findFragmentById(R.id.content_frame);
+            fm.beginTransaction().detach(f).attach(f).commit();
+        }
+    }
+
     public RouletteData getRouletteData() {
         return this.rouletteData;
     }
 
     public File getAssetLocation() {
         return this.assetLocation;
+    }
+
+    public ThreadPoolExecutor getThreadPool() {
+        return this.threadPool;
     }
 }

@@ -17,6 +17,7 @@
 package com.emzi0767.r6stratroulette;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,11 +46,14 @@ import java.util.*;
 public class TeamRandomizerFragment extends Fragment {
     private RouletteData rouletteData = null;
     private File assetLocation = null;
+    private ArrayList<OperatorData> atks = null, defs = null;
 
     private OperatorData[] opsA = null, opsD = null;
 
     private ImageView[] imgAttackers = null, imgDefenders = null;
     private TextView[] nameAttackers = null, nameDefenders = null;
+
+    private MainActivity mainActivity = null;
 
     private final Random rng = new Random();
 
@@ -57,55 +61,20 @@ public class TeamRandomizerFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.initOperators(null);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        MainActivity ac = (MainActivity)this.getActivity();
-        this.rouletteData = ac.getRouletteData();
-        this.assetLocation = ac.getAssetLocation();
+        this.mainActivity = (MainActivity)this.getActivity();
+        this.rouletteData = this.mainActivity.getRouletteData();
+        this.assetLocation = this.mainActivity.getAssetLocation();
 
-        OperatorsData ops = this.rouletteData.getOperators();
-        List<OperatorData> atks = ops.getAttackers();
-        List<OperatorData> defs = ops.getDefenders();
-
-        OperatorData[] atk = null;
-        OperatorData[] def = null;
-
-        if (savedInstanceState != null && savedInstanceState.containsKey("ATTACKERS") && savedInstanceState.containsKey("DEFENDERS")) {
-            List<String> atkN = Arrays.asList(savedInstanceState.getStringArray("ATTACKERS"));
-            List<String> defN = Arrays.asList(savedInstanceState.getStringArray("DEFENDERS"));
-
-            atk = new OperatorData[5];
-            def = new OperatorData[5];
-
-            for (int i = 0; i < atks.size(); i++) {
-                OperatorData opT = atks.get(i);
-                int j = atkN.indexOf(opT.getName());
-                if (j != -1)
-                    atk[j] = opT;
-            }
-            for (int i = 0; i < defs.size(); i++) {
-                OperatorData opT = defs.get(i);
-                int j = defN.indexOf(opT.getName());
-                if (j != -1)
-                    def[j] = opT;
-            }
-
-            for (int i = 0; i < 5; i++) {
-                if (atk[i] == null || def[i] == null) {
-                    atk = null;
-                    def = null;
-                    break;
-                }
-            }
-        } else {
-            atk = new OperatorData[5];
-            def = new OperatorData[5];
-            this.randomizeOperators(atk, def);
-        }
-
-        if (atk != null && def != null)
-            this.setOperators(atk, def);
+        this.initOperators(savedInstanceState);
     }
 
     @Override
@@ -129,8 +98,6 @@ public class TeamRandomizerFragment extends Fragment {
         Button btn = v.findViewById(R.id.randomteam_randomize);
         btn.setOnClickListener(x -> {
             OperatorsData ops = this.rouletteData.getOperators();
-            ArrayList<OperatorData> atks = new ArrayList<>(ops.getAttackers());
-            ArrayList<OperatorData> defs = new ArrayList<>(ops.getDefenders());
 
             OperatorData[] atk = new OperatorData[5];
             OperatorData[] def = new OperatorData[5];
@@ -184,8 +151,8 @@ public class TeamRandomizerFragment extends Fragment {
 
     private void randomizeOperators(OperatorData[] atk, OperatorData[] def) {
         OperatorsData ops = this.rouletteData.getOperators();
-        ArrayList<OperatorData> atks = new ArrayList<>(ops.getAttackers());
-        ArrayList<OperatorData> defs = new ArrayList<>(ops.getDefenders());
+        ArrayList<OperatorData> atks = new ArrayList<>(this.atks);
+        ArrayList<OperatorData> defs = new ArrayList<>(this.defs);
 
         for (int i = 0; i < 5; i++) {
             int ra = this.rng.nextInt(atks.size());
@@ -197,6 +164,67 @@ public class TeamRandomizerFragment extends Fragment {
             atks.remove(ra);
             defs.remove(rd);
         }
+    }
+
+    private void initOperators(Bundle savedInstanceState) {
+        if (this.mainActivity == null)
+            return;
+
+        SharedPreferences prefs = this.mainActivity.getSharedPreferences(this.getString(R.string.settings_filename), Context.MODE_PRIVATE);
+        Set<String> disabledOps = prefs.getStringSet(SettingsActivity.DISABLED_OPS_KEY, new HashSet<>());
+
+        OperatorsData ops = this.rouletteData.getOperators();
+        List<OperatorData> xatks = ops.getAttackers();
+        List<OperatorData> xdefs = ops.getDefenders();
+        this.atks = new ArrayList<>();
+        this.defs = new ArrayList<>();
+
+        for (OperatorData op : xatks)
+            if (!disabledOps.contains(op.getName()))
+                this.atks.add(op);
+        for (OperatorData op : xdefs)
+            if (!disabledOps.contains(op.getName()))
+                this.defs.add(op);
+
+        OperatorData[] atk = null;
+        OperatorData[] def = null;
+
+        if (savedInstanceState != null && savedInstanceState.containsKey("ATTACKERS") && savedInstanceState.containsKey("DEFENDERS")) {
+            List<String> atkN = Arrays.asList(savedInstanceState.getStringArray("ATTACKERS"));
+            List<String> defN = Arrays.asList(savedInstanceState.getStringArray("DEFENDERS"));
+
+            atk = new OperatorData[5];
+            def = new OperatorData[5];
+
+            for (int i = 0; i < this.atks.size(); i++) {
+                OperatorData opT = this.atks.get(i);
+                int j = atkN.indexOf(opT.getName());
+                if (j != -1)
+                    atk[j] = opT;
+            }
+            for (int i = 0; i < this.defs.size(); i++) {
+                OperatorData opT = this.defs.get(i);
+                int j = defN.indexOf(opT.getName());
+                if (j != -1)
+                    def[j] = opT;
+            }
+
+            for (int i = 0; i < 5; i++) {
+                if (atk[i] == null || def[i] == null) {
+                    atk = null;
+                    def = null;
+                    break;
+                }
+            }
+        }
+
+        if (atk == null || def == null) {
+            atk = new OperatorData[5];
+            def = new OperatorData[5];
+            this.randomizeOperators(atk, def);
+        }
+
+        this.setOperators(atk, def);
     }
 
     private int getResourceId(String resName, Class<?> c) {

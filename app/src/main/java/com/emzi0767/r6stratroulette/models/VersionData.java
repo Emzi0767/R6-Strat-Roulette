@@ -16,20 +16,39 @@
 
 package com.emzi0767.r6stratroulette.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public final class VersionData {
+public final class VersionData implements Parcelable {
     @SerializedName("number")
     private int number;
 
     @SerializedName("timestamp")
     private Date timestamp;
 
+    public static final Parcelable.Creator<VersionData> CREATOR = new Creator<VersionData>() {
+        @Override
+        public VersionData createFromParcel(Parcel in) {
+            return new VersionData(in);
+        }
+
+        @Override
+        public VersionData[] newArray(int i) {
+            return new VersionData[i];
+        }
+    };
+
     public VersionData() {
         this.number = 0;
         this.timestamp = new Date();
+    }
+
+    protected VersionData(Parcel in) {
+        this.number = in.readInt();
+        this.timestamp = new Date(in.readLong());
     }
 
     public int getNumber() {
@@ -38,5 +57,16 @@ public final class VersionData {
 
     public Date getTimestamp() {
         return this.timestamp;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(this.number);
+        parcel.writeLong(this.timestamp.getTime());
     }
 }

@@ -16,12 +16,17 @@
 
 package com.emzi0767.r6stratroulette.models;
 
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class RouletteData {
+public final class RouletteData implements Parcelable {
     @SerializedName("version")
     private VersionData version;
 
@@ -37,12 +42,37 @@ public final class RouletteData {
     @SerializedName("strats")
     private List<StrategyData> strategies;
 
+    public static final Creator<RouletteData> CREATOR = new Creator<RouletteData>() {
+        @Override
+        public RouletteData createFromParcel(Parcel in) {
+            return new RouletteData(in);
+        }
+
+        @Override
+        public RouletteData[] newArray(int size) {
+            return new RouletteData[size];
+        }
+    };
+
     public RouletteData() {
         this.version = null;
         this.ctus = null;
         this.operators = null;
         this.recruits = null;
         this.strategies = null;
+    }
+
+    protected RouletteData(Parcel in) {
+        this.version = in.readParcelable(VersionData.class.getClassLoader());
+
+        int i = in.readInt();
+        this.ctus = new HashMap<>();
+        for (; i > 0; i--)
+            this.ctus.put(in.readString(), in.readParcelable(CtuData.class.getClassLoader()));
+
+        this.operators = in.readParcelable(OperatorsData.class.getClassLoader());
+        this.recruits = in.readParcelable(RecruitsData.class.getClassLoader());
+        this.strategies = in.createTypedArrayList(StrategyData.CREATOR);
     }
 
     public VersionData getVersion() {
@@ -63,5 +93,25 @@ public final class RouletteData {
 
     public List<StrategyData> getStrategies() {
         return strategies;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.version, flags);
+
+        dest.writeInt(this.ctus.size());
+        for (String key : this.ctus.keySet()) {
+            dest.writeString(key);
+            dest.writeParcelable(this.ctus.get(key), flags);
+        }
+
+        dest.writeParcelable(this.operators, flags);
+        dest.writeParcelable(this.recruits, flags);
+        dest.writeTypedList(this.strategies);
     }
 }

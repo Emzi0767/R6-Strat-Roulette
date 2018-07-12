@@ -44,6 +44,10 @@
             android:title="@string/navdraw_opt_strat_roulette"
             android:icon="@drawable/ic_casino" />
         <item
+            android:id="@+id/nav_drawer_settings"
+            android:title="@string/navdraw_opt_settings"
+            android:icon="@drawable/ic_settings" />
+        <item
             android:id="@+id/nav_drawer_about"
             android:title="@string/navdraw_opt_about"
             android:icon="@drawable/ic_info" />

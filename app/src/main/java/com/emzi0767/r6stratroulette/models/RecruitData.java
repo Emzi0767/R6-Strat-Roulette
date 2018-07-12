@@ -16,11 +16,13 @@
 
 package com.emzi0767.r6stratroulette.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public final class RecruitData {
+public final class RecruitData implements Parcelable {
     @SerializedName("ctu")
     private String ctu;
 
@@ -36,12 +38,32 @@ public final class RecruitData {
     @SerializedName("gadget2")
     private List<String> secondaryGadgets;
 
+    public static final Creator<RecruitData> CREATOR = new Creator<RecruitData>() {
+        @Override
+        public RecruitData createFromParcel(Parcel in) {
+            return new RecruitData(in);
+        }
+
+        @Override
+        public RecruitData[] newArray(int size) {
+            return new RecruitData[size];
+        }
+    };
+
     public RecruitData() {
         this.ctu = null;
         this.primaryWeapons = null;
         this.secondaryWeapons = null;
         this.primaryGadgets = null;
         this.secondaryGadgets = null;
+    }
+
+    protected RecruitData(Parcel in) {
+        this.ctu = in.readString();
+        this.primaryWeapons = in.createStringArrayList();
+        this.secondaryWeapons = in.createStringArrayList();
+        this.primaryGadgets = in.createStringArrayList();
+        this.secondaryGadgets = in.createStringArrayList();
     }
 
     public String getCtu() {
@@ -62,5 +84,19 @@ public final class RecruitData {
 
     public List<String> getSecondaryGadgets() {
         return secondaryGadgets;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.ctu);
+        dest.writeStringList(this.primaryWeapons);
+        dest.writeStringList(this.secondaryWeapons);
+        dest.writeStringList(this.primaryGadgets);
+        dest.writeStringList(this.secondaryGadgets);
     }
 }

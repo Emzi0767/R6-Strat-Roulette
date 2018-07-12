@@ -16,9 +16,11 @@
 
 package com.emzi0767.r6stratroulette.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
-public final class CtuData {
+public final class CtuData implements Parcelable {
     @SerializedName("name")
     private String name;
 
@@ -28,10 +30,28 @@ public final class CtuData {
     @SerializedName("icon")
     private String icon;
 
+    public static final Creator<CtuData> CREATOR = new Creator<CtuData>() {
+        @Override
+        public CtuData createFromParcel(Parcel in) {
+            return new CtuData(in);
+        }
+
+        @Override
+        public CtuData[] newArray(int size) {
+            return new CtuData[size];
+        }
+    };
+
     public CtuData() {
         this.name = null;
         this.abbreviation = null;
         this.icon = null;
+    }
+
+    protected CtuData(Parcel in) {
+        this.name = in.readString();
+        this.abbreviation = in.readString();
+        this.icon = in.readString();
     }
 
     public String getName() {
@@ -44,5 +64,17 @@ public final class CtuData {
 
     public String getIcon() {
         return icon;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.abbreviation);
+        dest.writeString(this.icon);
     }
 }

@@ -16,11 +16,13 @@
 
 package com.emzi0767.r6stratroulette.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public final class StrategyData {
+public final class StrategyData implements Parcelable {
     @SerializedName("name")
     private String name;
 
@@ -33,11 +35,30 @@ public final class StrategyData {
     @SerializedName("mode")
     private List<String> gameModes;
 
+    public static final Creator<StrategyData> CREATOR = new Creator<StrategyData>() {
+        @Override
+        public StrategyData createFromParcel(Parcel in) {
+            return new StrategyData(in);
+        }
+
+        @Override
+        public StrategyData[] newArray(int size) {
+            return new StrategyData[size];
+        }
+    };
+
     public StrategyData() {
         this.name = null;
         this.description = null;
         this.sides = null;
         this.gameModes = null;
+    }
+
+    protected StrategyData(Parcel in) {
+        this.name = in.readString();
+        this.description = in.readString();
+        this.sides = in.createStringArrayList();
+        this.gameModes = in.createStringArrayList();
     }
 
     public String getName() {
@@ -54,5 +75,18 @@ public final class StrategyData {
 
     public List<String> getGameModes() {
         return gameModes;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.name);
+        parcel.writeString(this.description);
+        parcel.writeStringList(this.sides);
+        parcel.writeStringList(this.gameModes);
     }
 }

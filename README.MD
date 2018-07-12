@@ -29,10 +29,11 @@ The application requires 4 permissions to run:
 * **Access network state** to check whether internet connection is available
 
 ## Installation
-As the application is not (yet) available in Play Store, you will need to sideload it. First, you 
-need to ensure that your device allows installing applications from outside of Play Store. To do 
-that, you need to go to **Settings &gt; Security &amp; privacy &gt; Additional settings** and make 
-sure that **Unknown sources** is checked.
+The application [is available in Play Store](https://play.google.com/store/apps/details?id=com.emzi0767.r6stratroulette). 
+However, if you insist on sideloading, you can still do that. First, you need to ensure that your 
+device allows installing applications from outside of Play Store. To do that, you need to go to 
+**Settings &gt; Security &amp; privacy &gt; Additional settings** and make sure that **Unknown 
+sources** is checked.
 
 ### Installing using just the device
 Open your browser and navigate to [the download page](https://github.com/Emzi0767/R6-Strat-Roulette/releases/latest).

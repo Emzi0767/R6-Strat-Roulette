@@ -16,6 +16,8 @@
 
 package com.emzi0767.r6stratroulette;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -34,9 +36,7 @@ import com.emzi0767.r6stratroulette.models.OperatorsData;
 import com.emzi0767.r6stratroulette.models.RouletteData;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +44,7 @@ import java.util.Random;
 public class OperatorRandomizerFragment extends Fragment {
     private RouletteData rouletteData = null;
     private File assetLocation = null;
+    private ArrayList<OperatorData> atks = null, defs = null;
 
     private Bitmap bmpA = null, bmpD = null;
     private OperatorData opA = null, opD = null;
@@ -51,50 +52,28 @@ public class OperatorRandomizerFragment extends Fragment {
     private ImageView imgAttacker = null, imgDefender = null;
     private TextView nameAttacker = null, nameDefender = null, ctuAttacker = null, ctuDefender = null;
 
+    private MainActivity mainActivity = null;
+
     private final Random rng = new Random();
 
     public OperatorRandomizerFragment() {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.initOperators(null);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        MainActivity ac = (MainActivity)this.getActivity();
-        this.rouletteData = ac.getRouletteData();
-        this.assetLocation = ac.getAssetLocation();
+        this.mainActivity = (MainActivity)this.getActivity();
+        this.rouletteData = this.mainActivity.getRouletteData();
+        this.assetLocation = this.mainActivity.getAssetLocation();
 
-        OperatorsData ops = this.rouletteData.getOperators();
-        List<OperatorData> atks = ops.getAttackers();
-        List<OperatorData> defs = ops.getDefenders();
-
-        OperatorData atk = null;
-        OperatorData def = null;
-
-        if (savedInstanceState != null && savedInstanceState.containsKey("ATTACKER") && savedInstanceState.containsKey("DEFENDER")) {
-            String atkN = savedInstanceState.getString("ATTACKER");
-            String defN = savedInstanceState.getString("DEFENDER");
-
-            for (OperatorData op : atks)
-                if (op.getName().equals(atkN)) {
-                    atk = op;
-                    break;
-                }
-            for (OperatorData op : defs)
-                if (op.getName().equals(defN)) {
-                    def = op;
-                    break;
-                }
-        } else {
-            int ra = this.rng.nextInt(atks.size());
-            int rd = this.rng.nextInt(defs.size());
-
-            atk = atks.get(ra);
-            def = defs.get(rd);
-        }
-
-        if (atk != null && def != null)
-            this.setOperators(atk, def);
+        this.initOperators(savedInstanceState);
     }
 
     @Override
@@ -112,15 +91,11 @@ public class OperatorRandomizerFragment extends Fragment {
 
         Button btn = v.findViewById(R.id.randomop_randomize);
         btn.setOnClickListener(b -> {
-            OperatorsData ops = this.rouletteData.getOperators();
-            List<OperatorData> atks = ops.getAttackers();
-            List<OperatorData> defs = ops.getDefenders();
+            int ra = this.rng.nextInt(this.atks.size());
+            int rd = this.rng.nextInt(this.defs.size());
 
-            int ra = this.rng.nextInt(atks.size());
-            int rd = this.rng.nextInt(defs.size());
-
-            OperatorData atk = atks.get(ra);
-            OperatorData def = defs.get(rd);
+            OperatorData atk = this.atks.get(ra);
+            OperatorData def = this.defs.get(rd);
 
             this.setOperators(atk, def);
         });
@@ -161,5 +136,55 @@ public class OperatorRandomizerFragment extends Fragment {
 
         imgAttacker.setImageBitmap(bmpA);
         imgDefender.setImageBitmap(bmpD);
+    }
+
+    private void initOperators(Bundle savedInstanceState) {
+        if (this.mainActivity == null)
+            return;
+
+        SharedPreferences prefs = this.mainActivity.getSharedPreferences(this.getString(R.string.settings_filename), Context.MODE_PRIVATE);
+        Set<String> disabledOps = prefs.getStringSet(SettingsActivity.DISABLED_OPS_KEY, new HashSet<>());
+
+        OperatorsData ops = this.rouletteData.getOperators();
+        List<OperatorData> xatks = ops.getAttackers();
+        List<OperatorData> xdefs = ops.getDefenders();
+        this.atks = new ArrayList<>();
+        this.defs = new ArrayList<>();
+
+        for (OperatorData op : xatks)
+            if (!disabledOps.contains(op.getName()))
+                this.atks.add(op);
+        for (OperatorData op : xdefs)
+            if (!disabledOps.contains(op.getName()))
+                this.defs.add(op);
+
+        OperatorData atk = null;
+        OperatorData def = null;
+
+        if (savedInstanceState != null && savedInstanceState.containsKey("ATTACKER") && savedInstanceState.containsKey("DEFENDER")) {
+            String atkN = savedInstanceState.getString("ATTACKER");
+            String defN = savedInstanceState.getString("DEFENDER");
+
+            for (OperatorData op : this.atks)
+                if (op.getName().equals(atkN)) {
+                    atk = op;
+                    break;
+                }
+            for (OperatorData op : this.defs)
+                if (op.getName().equals(defN)) {
+                    def = op;
+                    break;
+                }
+        }
+
+        if (atk == null || def == null) {
+            int ra = this.rng.nextInt(this.atks.size());
+            int rd = this.rng.nextInt(this.defs.size());
+
+            atk = this.atks.get(ra);
+            def = this.defs.get(rd);
+        }
+
+        this.setOperators(atk, def);
     }
 }

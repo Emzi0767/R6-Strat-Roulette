@@ -21,10 +21,10 @@ android {
     buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.emzi0767.r6stratroulette"
-        minSdkVersion 19
+        minSdkVersion 20
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.1.0"
     }
     buildTypes {
         release {
@@ -32,8 +32,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-DEBUG"
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
         }
     }
     compileOptions {
