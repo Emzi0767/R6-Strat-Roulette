@@ -1,5 +1,8 @@
 # Changelog for R6: Strat Roulette
 
+### v1.1.2 (released: 2018-07-28 03:45 +02:00)
+- FIX: Actually bumped requried API level to Android 5.0
+
 ### v1.1.1 (released: 2018-07-12 20:18 +02:00)
 - FIX: Exiting settings via navigation bar back button now properly saves settings
 
