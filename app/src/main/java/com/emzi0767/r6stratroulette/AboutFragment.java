@@ -53,17 +53,17 @@ public class AboutFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_about, container, false);
 
-        Button supportPP = v.findViewById(R.id.btn_about_support_paypal);
-        supportPP.setOnClickListener(x -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getString(R.string.about_paypal_url)));
-            this.startActivity(browserIntent);
-        });
-
-        Button supportPT = v.findViewById(R.id.btn_about_support_patreon);
-        supportPT.setOnClickListener(x -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getString(R.string.about_patreon_url)));
-            this.startActivity(browserIntent);
-        });
+        // Button supportPP = v.findViewById(R.id.btn_about_support_paypal);
+        // supportPP.setOnClickListener(x -> {
+        //     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getString(R.string.about_paypal_url)));
+        //     this.startActivity(browserIntent);
+        // });
+        //
+        // Button supportPT = v.findViewById(R.id.btn_about_support_patreon);
+        // supportPT.setOnClickListener(x -> {
+        //     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getString(R.string.about_patreon_url)));
+        //     this.startActivity(browserIntent);
+        // });
 
         return v;
     }
