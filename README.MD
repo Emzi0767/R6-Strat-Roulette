@@ -10,9 +10,7 @@ It provides several components:
   by community members
 
 ## Requirements
-The application is built for Android 4.4+, however Android 4.4 might have issues with TLS 1.2 
-support, which will make it unable to download its assets. There should, however, be no issues with 
-Android versions 5.0 and above.
+The application is built for Android versions 5.0 and above.
 
 You need to have Internet connection available during first launch, so the application can download 
 its assets (icons and data). It will download approximately 2-3 MiB of data. If internet is 
