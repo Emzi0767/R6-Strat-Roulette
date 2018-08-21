@@ -54,8 +54,7 @@ let it download its assets.
 ## Screenshots
 <a href="https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png"><img src="https://static.emzi0767.com/r6strats/screenshots/01_main_menu.png" width="30%" alt="Main screen"></a>
 <a href="https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.jpg"><img src="https://static.emzi0767.com/r6strats/screenshots/02_nav_drawer.jpg" width="30%" alt="Navigation drawer"></a>
-<a href="https://static.emzi0767.com/r6strats/screenshots/03_attacker_rng.jpg"><img src="https://static.emzi0767.com/r6strats/screenshots/03_attacker_rng.jpg" width="30%" alt="Attacker randomizer"></a>
-<a href="https://static.emzi0767.com/r6strats/screenshots/03_defender_rng.jpg"><img src="https://static.emzi0767.com/r6strats/screenshots/03_defender_rng.jpg" width="30%" alt="Defender randomizer"></a>
+<a href="https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.jpg"><img src="https://static.emzi0767.com/r6strats/screenshots/03_operator_rng.jpg" width="30%" alt="Operator randomizer"></a>
 <a href="https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png"><img src="https://static.emzi0767.com/r6strats/screenshots/04_team_rng.png" width="30%" alt="Team randomizer"></a>
 <a href="https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png"><img src="https://static.emzi0767.com/r6strats/screenshots/05_recruit_rng.png" width="30%" alt="Recruit randomizer"></a>
 <a href="https://static.emzi0767.com/r6strats/screenshots/06_strat_roulette.png"><img src="https://static.emzi0767.com/r6strats/screenshots/06_strat_roulette.png" width="30%" alt="Strat roulette"></a>

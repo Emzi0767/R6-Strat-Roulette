@@ -18,24 +18,26 @@ package com.emzi0767.r6stratroulette;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.emzi0767.r6stratroulette.models.CtuData;
+import com.emzi0767.r6stratroulette.data.RandomizedOperator;
+import com.emzi0767.r6stratroulette.models.LoadoutData;
 import com.emzi0767.r6stratroulette.models.OperatorData;
 import com.emzi0767.r6stratroulette.models.OperatorsData;
 import com.emzi0767.r6stratroulette.models.RouletteData;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -43,16 +45,14 @@ import java.util.*;
  */
 public class OperatorRandomizerFragment extends Fragment {
     private RouletteData rouletteData = null;
-    private File assetLocation = null;
-    private ArrayList<OperatorData> atks = null, defs = null;
-
-    private Bitmap bmpA = null, bmpD = null;
-    private OperatorData opA = null, opD = null;
-
-    private ImageView imgAttacker = null, imgDefender = null;
-    private TextView nameAttacker = null, nameDefender = null, ctuAttacker = null, ctuDefender = null;
-
+    private RandomizedOperator opA = null, opD = null;
     private MainActivity mainActivity = null;
+    private OperatorFragmentPagerAdapter adapter = null;
+
+    private ViewPager tabPager = null;
+    private TabLayout tabs = null;
+
+    private ArrayList<OperatorData> atks = null, defs = null;
 
     private final Random rng = new Random();
 
@@ -62,6 +62,8 @@ public class OperatorRandomizerFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        this.adapter = new OperatorFragmentPagerAdapter(this.getChildFragmentManager());
         this.initOperators(null);
     }
 
@@ -71,33 +73,71 @@ public class OperatorRandomizerFragment extends Fragment {
 
         this.mainActivity = (MainActivity)this.getActivity();
         this.rouletteData = this.mainActivity.getRouletteData();
-        this.assetLocation = this.mainActivity.getAssetLocation();
 
         this.initOperators(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_operator_randomizer, container, false);
 
-        this.imgAttacker = v.findViewById(R.id.randomop_attacker_img);
-        this.imgDefender = v.findViewById(R.id.randomop_defender_img);
-        this.nameAttacker = v.findViewById(R.id.randomop_attacker_name);
-        this.nameDefender = v.findViewById(R.id.randomop_defender_name);
-        this.ctuAttacker = v.findViewById(R.id.randomop_attacker_ctu);
-        this.ctuDefender = v.findViewById(R.id.randomop_defender_ctu);
+        this.tabPager = v.findViewById(R.id.randomop_tabs_pager);
+        this.tabs = v.findViewById(R.id.randomop_tabs);
+        this.tabPager.setAdapter(this.adapter);
+        //tabs.setupWithViewPager(this.tabPager);
+        this.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                OperatorRandomizerFragment.this.tabPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        tabPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                OperatorRandomizerFragment.this.tabs.getTabAt(position).select();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        for (int i = 0; i < this.tabs.getTabCount(); i++) {
+            TabLayout.Tab t = this.tabs.getTabAt(i);
+            assert t != null;
+
+            t.setCustomView(R.layout.layout_tab);
+            if (i == 0) {
+                t.setText(R.string.randomop_lbl_attacker);
+                t.setIcon(R.drawable.ic_sword);
+            } else {
+                t.setText(R.string.randomop_lbl_defender);
+                t.setIcon(R.drawable.ic_shield);
+            }
+        }
 
         Button btn = v.findViewById(R.id.randomop_randomize);
         btn.setOnClickListener(b -> {
-            int ra = this.rng.nextInt(this.atks.size());
-            int rd = this.rng.nextInt(this.defs.size());
-
-            OperatorData atk = this.atks.get(ra);
-            OperatorData def = this.defs.get(rd);
-
-            this.setOperators(atk, def);
+            Pair<RandomizedOperator, RandomizedOperator> rops = this.getRandomOperators(this.opA.getOperator(), this.opD.getOperator());
+            this.setOperators(rops.first, rops.second);
         });
 
         return v;
@@ -105,37 +145,57 @@ public class OperatorRandomizerFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        FragmentTransaction ft = this.getChildFragmentManager().beginTransaction();
+        for (Fragment f : this.getChildFragmentManager().getFragments())
+            ft.remove(f);
+        ft.commit();
+
         if (this.opA != null && this.opD != null) {
-            outState.putString("ATTACKER", opA.getName());
-            outState.putString("DEFENDER", opD.getName());
+            Bundle atkData = new Bundle();
+            atkData.putString("NAME", opA.getOperator().getName());
+            atkData.putString("WEAPON1", opA.getPrimary());
+            atkData.putString("WEAPON2", opA.getSecondary());
+            atkData.putString("GADGET", opA.getGadget());
+
+            Bundle defData = new Bundle();
+            defData.putString("NAME", opD.getOperator().getName());
+            defData.putString("WEAPON1", opD.getPrimary());
+            defData.putString("WEAPON2", opD.getSecondary());
+            defData.putString("GADGET", opD.getGadget());
+
+            outState.putBundle("ATTACKER", atkData);
+            outState.putBundle("DEFENDER", defData);
         }
 
         super.onSaveInstanceState(outState);
     }
 
-    private void setOperators(OperatorData atk, OperatorData def) {
+    @Override
+    public void onPause() {
+        this.tabPager.setAdapter(null);
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        this.tabPager.setAdapter(this.adapter);
+        super.onResume();
+    }
+
+    private void setOperators(RandomizedOperator atk, RandomizedOperator def) {
         this.opA = atk;
         this.opD = def;
 
-        Map<String, CtuData> ctus = this.rouletteData.getCtus();
+        for (Fragment f : this.getChildFragmentManager().getFragments()) {
+            if (!(f instanceof OperatorFragment))
+                continue;
 
-        CtuData ctuAtk = ctus.get(atk.getCtu());
-        CtuData ctuDef = ctus.get(def.getCtu());
-
-        nameAttacker.setText(atk.getName());
-        nameDefender.setText(def.getName());
-
-        ctuAttacker.setText(String.format("%s (%s)", ctuAtk.getName(), ctuAtk.getAbbreviation()));
-        ctuDefender.setText(String.format("%s (%s)", ctuDef.getName(), ctuDef.getAbbreviation()));
-
-        File imgAtk = new File(this.assetLocation, atk.getIcon());
-        File imgDef = new File(this.assetLocation, def.getIcon());
-
-        this.bmpA = BitmapFactory.decodeFile(imgAtk.getAbsolutePath());
-        this.bmpD = BitmapFactory.decodeFile(imgDef.getAbsolutePath());
-
-        imgAttacker.setImageBitmap(bmpA);
-        imgDefender.setImageBitmap(bmpD);
+            OperatorFragment of = (OperatorFragment)f;
+            if (of.getType() == OperatorFragment.OperatorFragmentType.ATTACKER)
+                of.setOperator(atk);
+            else if (of.getType() == OperatorFragment.OperatorFragmentType.DEFENDER)
+                of.setOperator(def);
+        }
     }
 
     private void initOperators(Bundle savedInstanceState) {
@@ -158,33 +218,124 @@ public class OperatorRandomizerFragment extends Fragment {
             if (!disabledOps.contains(op.getName()))
                 this.defs.add(op);
 
-        OperatorData atk = null;
-        OperatorData def = null;
+        RandomizedOperator atk = null, def = null;
 
         if (savedInstanceState != null && savedInstanceState.containsKey("ATTACKER") && savedInstanceState.containsKey("DEFENDER")) {
-            String atkN = savedInstanceState.getString("ATTACKER");
-            String defN = savedInstanceState.getString("DEFENDER");
+            Bundle atkData = savedInstanceState.getBundle("ATTACKER");
+            Bundle defData = savedInstanceState.getBundle("DEFENDER");
+
+            assert atkData != null;
+            assert defData != null;
+
+            String atkName = atkData.getString("NAME");
+            String defName = defData.getString("NAME");
+
+            OperatorData xopA = null, xopD = null;
 
             for (OperatorData op : this.atks)
-                if (op.getName().equals(atkN)) {
-                    atk = op;
+                if (op.getName().equals(atkName)) {
+                    xopA = op;
                     break;
                 }
             for (OperatorData op : this.defs)
-                if (op.getName().equals(defN)) {
-                    def = op;
+                if (op.getName().equals(defName)) {
+                    xopD = op;
                     break;
                 }
+
+            if (xopA != null && xopD != null) {
+                String atkW1 = atkData.getString("WEAPON1"),
+                        atkW2 = atkData.getString("WEAPON2"),
+                        atkG = atkData.getString("GADGET"),
+                        defW1 = defData.getString("WEAPON1"),
+                        defW2 = defData.getString("WEAPON2"),
+                        defG = defData.getString("GADGET");
+
+                if (atkW1 != null && atkW2 != null && atkG != null && defW1 != null && defW2 != null && defG != null) {
+                    atk = new RandomizedOperator(xopA, atkW1, atkW2, atkG);
+                    def = new RandomizedOperator(xopD, defW1, defW2, defG);
+                }
+            }
         }
 
         if (atk == null || def == null) {
-            int ra = this.rng.nextInt(this.atks.size());
-            int rd = this.rng.nextInt(this.defs.size());
-
-            atk = this.atks.get(ra);
-            def = this.defs.get(rd);
+            Pair<RandomizedOperator, RandomizedOperator> rops = this.getRandomOperators(null, null);
+            atk = rops.first;
+            def = rops.second;
         }
 
         this.setOperators(atk, def);
+    }
+
+    private Pair<RandomizedOperator, RandomizedOperator> getRandomOperators(@Nullable OperatorData previousAtk, @Nullable OperatorData previousDef) {
+        OperatorData opA = null, opD = null;
+
+        while (opA == null || (previousAtk != null && opA.getName().equals(previousAtk.getName()))) {
+            opA = Util.randomItem(this.atks, this.rng);
+        }
+
+        while (opD == null || (previousDef != null && opD.getName().equals(previousDef.getName()))) {
+            opD = Util.randomItem(this.defs, this.rng);
+        }
+
+        LoadoutData loadoutA = opA.getLoadout(), loadoutD = opD.getLoadout();
+        String aw1 = Util.randomItem(loadoutA.getPrimaryWeapons(), this.rng),
+                aw2 = Util.randomItem(loadoutA.getSecondaryWeapons(), this.rng),
+                ag = Util.randomItem(loadoutA.getGadgets(), this.rng),
+                dw1 = Util.randomItem(loadoutD.getPrimaryWeapons(), this.rng),
+                dw2 = Util.randomItem(loadoutD.getSecondaryWeapons(), this.rng),
+                dg = Util.randomItem(loadoutD.getGadgets(), this.rng);
+
+        return new Pair<>(new RandomizedOperator(opA, aw1, aw2, ag), new RandomizedOperator(opD, dw1, dw2, dg));
+    }
+
+    private class OperatorFragmentPagerAdapter extends FragmentStatePagerAdapter {
+        OperatorFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            OperatorFragment opf = new OperatorFragment();
+
+            switch (position) {
+                case 0:
+                    opf.setType(OperatorFragment.OperatorFragmentType.ATTACKER);
+                    break;
+
+                case 1:
+                    opf.setType(OperatorFragment.OperatorFragmentType.DEFENDER);
+                    break;
+            }
+
+            return opf;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return OperatorRandomizerFragment.this.getResources().getString(R.string.randomop_lbl_attacker);
+
+                case 1:
+                    return OperatorRandomizerFragment.this.getResources().getString(R.string.randomop_lbl_defender);
+            }
+
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+    }
+
+    RandomizedOperator getAttacker() {
+        return this.opA;
+    }
+
+    RandomizedOperator getDefender() {
+        return this.opD;
     }
 }

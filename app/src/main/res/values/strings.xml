@@ -23,8 +23,6 @@
     <!-- MENU ITEMS -->
     <string name="navdraw_opt_home">Home</string>
     <string name="navdraw_opt_random_op">Operator Randomizer</string>
-    <string name="navdraw_opt_random_op_atk">Attacker Randomizer</string>
-    <string name="navdraw_opt_random_op_def">Defender Randomizer</string>
     <string name="navdraw_opt_random_team">Team Randomizer</string>
     <string name="navdraw_opt_recruit_builder">Recruit Randomizer</string>
     <string name="navdraw_opt_recruit_team">Recruit Team Builder</string>
@@ -36,8 +34,6 @@
     <!-- TITLES -->
     <string name="frag_home">R6: Strat Roulette</string>
     <string name="frag_random_op">Operator Randomizer</string>
-    <string name="frag_random_op_atk">Attacker Randomizer</string>
-    <string name="frag_random_op_def">Defender Randomizer</string>
     <string name="frag_random_team">Team Randomizer</string>
     <string name="frag_recruit_builder">Recruit Randomizer</string>
     <string name="frag_recruit_team">Recruit Team Builder</string>

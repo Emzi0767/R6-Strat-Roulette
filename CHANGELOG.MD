@@ -1,5 +1,9 @@
 # Changelog for R6: Strat Roulette
 
+### v1.3.0 (released: 2018-08-21 21:50 +02:00)
+- NEW: Merged attacker and defender randomizers back into Operator randomizer for better UX.
+  - The UI is now divided into 2 tabs instead.
+
 ### v1.2.0 (released: 2018-08-21 16:50 +02:00)
 - NEW: Operator randomizer was split into 2 fragments
   - There's now Attacker Randomizer and Defender Randomizer
