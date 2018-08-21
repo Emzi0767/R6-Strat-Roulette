@@ -30,6 +30,9 @@ public final class OperatorData implements Parcelable {
     @SerializedName("ctu")
     private String ctu;
 
+    @SerializedName("loadout")
+    private LoadoutData loadout;
+
     public static final Creator<OperatorData> CREATOR = new Creator<OperatorData>() {
         @Override
         public OperatorData createFromParcel(Parcel in) {
@@ -46,24 +49,30 @@ public final class OperatorData implements Parcelable {
         this.name = null;
         this.icon = null;
         this.ctu = null;
+        this.loadout = null;
     }
 
     protected OperatorData(Parcel in) {
         this.name = in.readString();
         this.icon = in.readString();
         this.ctu = in.readString();
+        this.loadout = in.readParcelable(LoadoutData.class.getClassLoader());
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getIcon() {
-        return icon;
+        return this.icon;
     }
 
     public String getCtu() {
-        return ctu;
+        return this.ctu;
+    }
+
+    public LoadoutData getLoadout() {
+        return this.loadout;
     }
 
     @Override
@@ -76,5 +85,6 @@ public final class OperatorData implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.icon);
         dest.writeString(this.ctu);
+        dest.writeParcelable(this.loadout, flags);
     }
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 	This file is a part of R6: Strat Roulette project.
 
 	Copyright 2018 Emzi0767
@@ -24,6 +23,8 @@
     <!-- MENU ITEMS -->
     <string name="navdraw_opt_home">Home</string>
     <string name="navdraw_opt_random_op">Operator Randomizer</string>
+    <string name="navdraw_opt_random_op_atk">Attacker Randomizer</string>
+    <string name="navdraw_opt_random_op_def">Defender Randomizer</string>
     <string name="navdraw_opt_random_team">Team Randomizer</string>
     <string name="navdraw_opt_recruit_builder">Recruit Randomizer</string>
     <string name="navdraw_opt_recruit_team">Recruit Team Builder</string>
@@ -35,6 +36,8 @@
     <!-- TITLES -->
     <string name="frag_home">R6: Strat Roulette</string>
     <string name="frag_random_op">Operator Randomizer</string>
+    <string name="frag_random_op_atk">Attacker Randomizer</string>
+    <string name="frag_random_op_def">Defender Randomizer</string>
     <string name="frag_random_team">Team Randomizer</string>
     <string name="frag_recruit_builder">Recruit Randomizer</string>
     <string name="frag_recruit_team">Recruit Team Builder</string>
@@ -80,6 +83,9 @@
     <string name="randomop_btn_randomize">Randomize</string>
     <string name="randomop_lbl_attacker">Attacker</string>
     <string name="randomop_lbl_defender">Defender</string>
+    <string name="randomop_lbl_weapon1">Primary weapon</string>
+    <string name="randomop_lbl_weapon2">Secondary weapon</string>
+    <string name="randomop_lbl_gadget">Gadget</string>
 
     <!-- TEAM RANDOMIZER -->
     <string name="randomteam_btn_randomize">Randomize</string>
@@ -128,5 +134,8 @@
     <string name="settings_ops_available">Available Operators</string>
     <string name="settings_ops_need_at_least_one">You need at least 5 operators on each side enabled.</string>
     <string name="settings_filename">r6strats-settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

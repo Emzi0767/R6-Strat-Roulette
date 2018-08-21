@@ -24,9 +24,13 @@
             android:title="@string/navdraw_opt_home"
             android:icon="@drawable/ic_home" />
         <item
-            android:id="@+id/nav_drawer_random_op"
-            android:title="@string/navdraw_opt_random_op"
-            android:icon="@drawable/ic_person"  />
+            android:id="@+id/nav_drawer_random_op_atk"
+            android:title="@string/navdraw_opt_random_op_atk"
+            android:icon="@drawable/ic_sword" />
+        <item
+            android:id="@+id/nav_drawer_random_op_def"
+            android:title="@string/navdraw_opt_random_op_def"
+            android:icon="@drawable/ic_shield" />
         <item
             android:id="@+id/nav_drawer_random_team"
             android:title="@string/navdraw_opt_random_team"

@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment home = null,
         about = null,
-        randomOperator = null,
+        //randomOperator = null,
+        randomOperatorAtk = null,
+        randomOperatorDef = null,
         strategyRoulette = null,
         randomTeam = null,
         randomRecruit = null;
@@ -95,8 +97,12 @@ public class MainActivity extends AppCompatActivity {
         for (Fragment f : frags) {
             if (f instanceof HomeFragment)
                 this.home = f;
-            else if (f instanceof OperatorRandomizerFragment)
-                this.randomOperator = f;
+            //else if (f instanceof OperatorRandomizerFragment)
+            //    this.randomOperator = f;
+            else if (f instanceof AttackerRandomizerFragment)
+                this.randomOperatorAtk = f;
+            else if (f instanceof DefenderRandomizerFragment)
+                this.randomOperatorDef = f;
             else if (f instanceof TeamRandomizerFragment)
                 this.randomTeam = f;
             else if (f instanceof RecruitRandomizerFragment)
@@ -104,15 +110,19 @@ public class MainActivity extends AppCompatActivity {
             else if (f instanceof StrategyRouletteFragment)
                 this.strategyRoulette = f;
             else if (f instanceof AboutFragment)
-                this.randomOperator = f;
+                this.about = f;
         }
 
         if (this.home == null)
             this.home = new HomeFragment();
         if (this.about == null)
             this.about = new AboutFragment();
-        if (this.randomOperator == null)
-            this.randomOperator = new OperatorRandomizerFragment();
+        //if (this.randomOperator == null)
+        //    this.randomOperator = new OperatorRandomizerFragment();
+        if (this.randomOperatorAtk == null)
+            this.randomOperatorAtk = new AttackerRandomizerFragment();
+        if (this.randomOperatorDef == null)
+            this.randomOperatorDef = new DefenderRandomizerFragment();
         if (this.strategyRoulette == null)
             this.strategyRoulette = new StrategyRouletteFragment();
         if (this.randomTeam == null)
@@ -227,11 +237,25 @@ public class MainActivity extends AppCompatActivity {
                 t.replace(R.id.content_frame, this.home);
                 break;
 
-            case R.id.nav_drawer_random_op:
-                if (this.randomOperator.isDetached())
-                    t.attach(this.randomOperator);
-                actionBar.setTitle(R.string.frag_random_op);
-                t.replace(R.id.content_frame, this.randomOperator);
+            //case R.id.nav_drawer_random_op:
+            //    if (this.randomOperator.isDetached())
+            //        t.attach(this.randomOperator);
+            //    actionBar.setTitle(R.string.frag_random_op);
+            //    t.replace(R.id.content_frame, this.randomOperator);
+            //    break;
+
+            case R.id.nav_drawer_random_op_atk:
+                if (this.randomOperatorAtk.isDetached())
+                    t.attach(this.randomOperatorAtk);
+                actionBar.setTitle(R.string.frag_random_op_atk);
+                t.replace(R.id.content_frame, this.randomOperatorAtk);
+                break;
+
+            case R.id.nav_drawer_random_op_def:
+                if (this.randomOperatorDef.isDetached())
+                    t.attach(this.randomOperatorDef);
+                actionBar.setTitle(R.string.frag_random_op_def);
+                t.replace(R.id.content_frame, this.randomOperatorDef);
                 break;
 
             case R.id.nav_drawer_random_team:

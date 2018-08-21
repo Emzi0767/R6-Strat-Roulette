@@ -1,5 +1,13 @@
 # Changelog for R6: Strat Roulette
 
+### v1.2.0 (released: 2018-08-21 16:50 +02:00)
+- NEW: Operator randomizer was split into 2 fragments
+  - There's now Attacker Randomizer and Defender Randomizer
+  - Operator Randomizer is no longer available by itself
+- NEW: Operator randomizers now also randomize operator loadout
+  - They will select a random primary and secondary weapons, as well as gadget.
+- NEW: Operator randomizers will no longer select the same operator more than once in a row.
+
 ### v1.1.2-r2 (released: 2018-07-28 07:27 +02:00)
 - FIX: Remove PayPal and Patreon links, apparently Google is mad about them now
   - Why weren't they before? 🤔
