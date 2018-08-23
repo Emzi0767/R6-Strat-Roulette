@@ -51,6 +51,7 @@ public class OperatorRandomizerFragment extends Fragment {
 
     private ViewPager tabPager = null;
     private TabLayout tabs = null;
+    private int lastTab = 0;
 
     private ArrayList<OperatorData> atks = null, defs = null;
 
@@ -90,6 +91,7 @@ public class OperatorRandomizerFragment extends Fragment {
         this.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                OperatorRandomizerFragment.this.lastTab = tab.getPosition();
                 OperatorRandomizerFragment.this.tabPager.setCurrentItem(tab.getPosition());
             }
 
@@ -111,6 +113,7 @@ public class OperatorRandomizerFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
+                OperatorRandomizerFragment.this.lastTab = position;
                 OperatorRandomizerFragment.this.tabs.getTabAt(position).select();
             }
 
@@ -179,6 +182,7 @@ public class OperatorRandomizerFragment extends Fragment {
     @Override
     public void onResume() {
         this.tabPager.setAdapter(this.adapter);
+        this.tabPager.setCurrentItem(this.lastTab);
         super.onResume();
     }
 
