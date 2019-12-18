@@ -95,7 +95,7 @@
                 android:layout_column="0"
                 android:layout_gravity="center_vertical" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/strats_side"
                 android:layout_width="192dp"
                 android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                 android:layout_column="0"
                 android:layout_gravity="center_vertical" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/strats_mode"
                 android:layout_width="192dp"
                 android:layout_height="wrap_content"

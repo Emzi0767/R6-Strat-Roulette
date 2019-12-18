@@ -18,10 +18,10 @@ package com.emzi0767.r6stratroulette;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.*;
 import com.emzi0767.r6stratroulette.data.OperatorSelection;
 import com.emzi0767.r6stratroulette.models.OperatorData;
@@ -29,7 +29,6 @@ import com.emzi0767.r6stratroulette.models.RouletteData;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;

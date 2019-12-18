@@ -1,5 +1,8 @@
 # Changelog for R6: Strat Roulette
 
+### v1.4.0 (released: )
+- NEW: Updated Android targets and underlying libraries
+
 ### v1.3.1 (released: 2018-08-23 21:30 +02:00)
 - FIX: When the screen is turned off while Operator randomizer is up, wrong tab might be displayed
   when it's on again.
