@@ -67,6 +67,16 @@ You can also join [my Discord server](https://discord.gg/rGKrJDR) or contact me 
 The source is an IntelliJ IDEA project. It requires that you have JDK 8, as well as Android SDK, 
 with platform 27 installed. Gradle should take care of the rest.
 
+## Credits
+Certain materials used in the application have been sourced from 3rd parties. 
+
+Some strategies were sourced from or inspired by:
+- [/u/thebloopergamer on reddit](https://redd.it/4kc0a5)
+- [/u/randomsiege on reddit](https://redd.it/405c8z)
+- [r6.quickbrownfoxes.org](https://r6.quickbrownfoxes.org/)
+
+Additionally, the application uses [operator icons made by marcopixel](https://marcopixel.eu/r6-operatoricons/).
+ 
 ## Support me
 Should you wish to support me for making this application, you can send me money through one of 
 these:
