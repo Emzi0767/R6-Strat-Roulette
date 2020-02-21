@@ -21,6 +21,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeData;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeOperator;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeOperatorLoadout;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,10 +36,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.emzi0767.r6stratroulette.data.RandomizedOperator;
-import com.emzi0767.r6stratroulette.models.LoadoutData;
-import com.emzi0767.r6stratroulette.models.OperatorData;
-import com.emzi0767.r6stratroulette.models.OperatorsData;
-import com.emzi0767.r6stratroulette.models.RouletteData;
 
 import java.util.*;
 
@@ -44,7 +43,7 @@ import java.util.*;
  * A simple {@link Fragment} subclass.
  */
 public class OperatorRandomizerFragment extends Fragment {
-    private RouletteData rouletteData = null;
+    private RouletteRuntimeData rouletteData = null;
     private RandomizedOperator opA = null, opD = null;
     private MainActivity mainActivity = null;
     private OperatorFragmentPagerAdapter adapter = null;
@@ -53,7 +52,7 @@ public class OperatorRandomizerFragment extends Fragment {
     private TabLayout tabs = null;
     private int lastTab = 0;
 
-    private ArrayList<OperatorData> atks = null, defs = null;
+    private ArrayList<RouletteRuntimeOperator> atks = null, defs = null;
 
     private final Random rng = new Random();
 
@@ -209,16 +208,15 @@ public class OperatorRandomizerFragment extends Fragment {
         SharedPreferences prefs = this.mainActivity.getSharedPreferences(this.getString(R.string.settings_filename), Context.MODE_PRIVATE);
         Set<String> disabledOps = prefs.getStringSet(SettingsActivity.DISABLED_OPS_KEY, new HashSet<>());
 
-        OperatorsData ops = this.rouletteData.getOperators();
-        List<OperatorData> xatks = ops.getAttackers();
-        List<OperatorData> xdefs = ops.getDefenders();
+        List<RouletteRuntimeOperator> xatks = this.rouletteData.getOperatorAttackers();
+        List<RouletteRuntimeOperator> xdefs = this.rouletteData.getOperatorDefenders();
         this.atks = new ArrayList<>();
         this.defs = new ArrayList<>();
 
-        for (OperatorData op : xatks)
+        for (RouletteRuntimeOperator op : xatks)
             if (!disabledOps.contains(op.getName()))
                 this.atks.add(op);
-        for (OperatorData op : xdefs)
+        for (RouletteRuntimeOperator op : xdefs)
             if (!disabledOps.contains(op.getName()))
                 this.defs.add(op);
 
@@ -234,14 +232,14 @@ public class OperatorRandomizerFragment extends Fragment {
             String atkName = atkData.getString("NAME");
             String defName = defData.getString("NAME");
 
-            OperatorData xopA = null, xopD = null;
+            RouletteRuntimeOperator xopA = null, xopD = null;
 
-            for (OperatorData op : this.atks)
+            for (RouletteRuntimeOperator op : this.atks)
                 if (op.getName().equals(atkName)) {
                     xopA = op;
                     break;
                 }
-            for (OperatorData op : this.defs)
+            for (RouletteRuntimeOperator op : this.defs)
                 if (op.getName().equals(defName)) {
                     xopD = op;
                     break;
@@ -271,8 +269,9 @@ public class OperatorRandomizerFragment extends Fragment {
         this.setOperators(atk, def);
     }
 
-    private Pair<RandomizedOperator, RandomizedOperator> getRandomOperators(@Nullable OperatorData previousAtk, @Nullable OperatorData previousDef) {
-        OperatorData opA = null, opD = null;
+    private Pair<RandomizedOperator, RandomizedOperator> getRandomOperators(@Nullable RouletteRuntimeOperator previousAtk,
+                                                                            @Nullable RouletteRuntimeOperator previousDef) {
+        RouletteRuntimeOperator opA = null, opD = null;
 
         while (opA == null || (previousAtk != null && opA.getName().equals(previousAtk.getName()))) {
             opA = Util.randomItem(this.atks, this.rng);
@@ -282,7 +281,7 @@ public class OperatorRandomizerFragment extends Fragment {
             opD = Util.randomItem(this.defs, this.rng);
         }
 
-        LoadoutData loadoutA = opA.getLoadout(), loadoutD = opD.getLoadout();
+        RouletteRuntimeOperatorLoadout loadoutA = opA.getLoadout(), loadoutD = opD.getLoadout();
         String aw1 = Util.randomItem(loadoutA.getPrimaryWeapons(), this.rng),
                 aw2 = Util.randomItem(loadoutA.getSecondaryWeapons(), this.rng),
                 ag = Util.randomItem(loadoutA.getGadgets(), this.rng),

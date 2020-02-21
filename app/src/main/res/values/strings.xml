@@ -49,9 +49,12 @@
     <string name="about_source"><a href="https://github.com/Emzi0767/R6-Strat-Roulette">Source code on GitHub</a></string>
     <string name="about_credits">Credits and Acknowledgments</string>
     <string name="about_ubi_assets">This application uses assets from Rainbow 6: Siege by Ubisoft. These assets are intellectual property of Ubisoft. All rights are reserved.</string>
-    <string name="about_credits_1"><a href="https://redd.it/4kc0a5">/u/thebloopergamer</a></string>
-    <string name="about_credits_2"><a href="https://redd.it/405c8z">/u/randomsiege</a></string>
-    <string name="about_credits_3"><a href="https://r6.quickbrownfoxes.org/">r6.quickbrownfoxes.org</a></string>
+    <string name="about_credits_strats_header">Strategies inspired by content made by and/or from:</string>
+    <string name="about_credits_strats_1"><a href="https://redd.it/4kc0a5">/u/thebloopergamer</a></string>
+    <string name="about_credits_strats_2"><a href="https://redd.it/405c8z">/u/randomsiege</a></string>
+    <string name="about_credits_strats_3"><a href="https://r6.quickbrownfoxes.org/">r6.quickbrownfoxes.org</a></string>
+    <string name="about_credits_icons_header">Icons sourced from:</string>
+    <string name="about_credits_icons_1"><a href="https://marcopixel.eu/r6-operatoricons/">r6-operatoricons by marcopixel</a></string>
     <string name="about_supportme">Support me!</string>
     <string name="about_patreon">Patreon</string>
     <string name="about_paypal">PayPal</string>

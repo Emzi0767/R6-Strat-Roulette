@@ -17,7 +17,6 @@
 package com.emzi0767.r6stratroulette.data;
 
 public final class RandomizedRecruit {
-    private String ctu;
     private String primaryWeapon;
     private String secondaryWeapon;
     private String primaryGadget;
@@ -27,12 +26,15 @@ public final class RandomizedRecruit {
 
     }
 
-    public String getCtu() {
-        return ctu;
-    }
-
-    public void setCtu(String ctu) {
-        this.ctu = ctu;
+    public RandomizedRecruit(
+            String primaryWeapon,
+            String secondaryWeapon,
+            String primaryGadget,
+            String secondaryGadget) {
+        this.primaryWeapon = primaryWeapon;
+        this.secondaryWeapon = secondaryWeapon;
+        this.primaryGadget = primaryGadget;
+        this.secondaryGadget = secondaryGadget;
     }
 
     public String getPrimaryWeapon() {

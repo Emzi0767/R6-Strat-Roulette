@@ -24,8 +24,8 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.widget.*;
 import com.emzi0767.r6stratroulette.data.OperatorSelection;
-import com.emzi0767.r6stratroulette.models.OperatorData;
-import com.emzi0767.r6stratroulette.models.RouletteData;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeData;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeOperator;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private RouletteData rouletteData = null;
+    private RouletteRuntimeData rouletteData = null;
     private File assetLocation = null;
     private HashSet<String> disabledOps;
     private ArrayList<OperatorSelection> opSelections;
@@ -106,18 +106,18 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void loadOperatorSettings() {
-        RouletteData rd = this.rouletteData;
+        RouletteRuntimeData rd = this.rouletteData;
         File f = this.assetLocation;
 
-        for (OperatorData opd : rd.getOperators().getAttackers())
+        for (RouletteRuntimeOperator opd : rd.getOperatorAttackers())
             this.prepareOperator(opd, f, true);
-        for (OperatorData opd : rd.getOperators().getDefenders())
+        for (RouletteRuntimeOperator opd : rd.getOperatorDefenders())
             this.prepareOperator(opd, f, false);
 
         this.opSelAdapter.notifyDataSetChanged();
     }
 
-    private void prepareOperator(OperatorData opd, File f, boolean side) {
+    private void prepareOperator(RouletteRuntimeOperator opd, File f, boolean side) {
         File icon = new File(f, opd.getIcon());
         OperatorSelection opSel = new OperatorSelection();
         opSel.setName(opd.getName());

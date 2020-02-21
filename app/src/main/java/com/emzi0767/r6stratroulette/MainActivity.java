@@ -28,6 +28,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import androidx.annotation.NonNull;
+import com.emzi0767.r6stratroulette.models.StringLanguage;
+import com.emzi0767.r6stratroulette.models.json.RouletteJsonRoot;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeData;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -45,7 +48,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.emzi0767.r6stratroulette.data.Progress;
 import com.emzi0767.r6stratroulette.data.URLs;
-import com.emzi0767.r6stratroulette.models.RouletteData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.FileUtils;
@@ -64,11 +66,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String ASSETS_JSON_FILENAME = "assets-v2.json";
+    public static final String DATA_JSON_FILENAME = "data-v2.json";
     private DrawerLayout mDrawerLayout;
     private int mActiveView = 0;
     private int grantedPermissions = 0;
     private ProgressDialog progressDialog;
-    private RouletteData rouletteData = null;
+    private StringLanguage assetLocalization = StringLanguage.ENGLISH;
+    private RouletteRuntimeData rouletteData = null;
     private File assetLocation = null;
 
     private final CountDownLatch permissionSemaphore = new CountDownLatch(1);
@@ -187,10 +192,11 @@ public class MainActivity extends AppCompatActivity {
                 this.assetLocation = assetDir;
 
                 Gson gson = new Gson();
-                File data = new File(this.assetLocation, "data.json");
+                File data = new File(this.assetLocation, DATA_JSON_FILENAME);
                 if (data.exists()) {
-                    String dataJson = FileUtils.readFileToString(data, "UTF-8");
-                    this.rouletteData = gson.fromJson(dataJson, RouletteData.class);
+                    String dataJsonString = FileUtils.readFileToString(data, "UTF-8");
+                    RouletteJsonRoot dataJson = gson.fromJson(dataJsonString, RouletteJsonRoot.class);
+                    this.rouletteData = RouletteRuntimeData.fromJson(dataJson, this.assetLocalization);
                 }
             } catch (Exception ex) {
                 this.showErrorDialog(ex);
@@ -383,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
         final HashMap<String, String> assetsMapCurrent = new HashMap<>();
         Type type = new TypeToken<HashMap<String, String>>() { }.getType();
         if (hasInternet) {
-            URL assetsUrl = URLs.getAssetUrl("assets.json");
+            URL assetsUrl = URLs.getAssetUrl(ASSETS_JSON_FILENAME);
             assetsCurrent = IOUtils.toString(assetsUrl, "UTF-8");
             HashMap<String, String> tmp = gson.fromJson(assetsCurrent, type);
             for (String k : tmp.keySet())
@@ -391,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // check asset registry
-        File assets = new File(assetDir, "assets.json");
+        File assets = new File(assetDir, ASSETS_JSON_FILENAME);
         HashMap<String, String> assetsMapLocal = new HashMap<>();
         if (!assets.exists() && !hasInternet) {
             this.runOnUiThread(this::showNoInternetDialog);
@@ -424,9 +430,10 @@ public class MainActivity extends AppCompatActivity {
             FileUtils.writeStringToFile(assets, assetsCurrent, "UTF-8");
 
         // load roulette data
-        File data = new File(assetDir, "data.json");
-        String dataJson = FileUtils.readFileToString(data, "UTF-8");
-        this.rouletteData = gson.fromJson(dataJson, RouletteData.class);
+        File data = new File(assetDir, DATA_JSON_FILENAME);
+        String dataJsonString = FileUtils.readFileToString(data, "UTF-8");
+        RouletteJsonRoot dataJson = gson.fromJson(dataJsonString, RouletteJsonRoot.class);
+        this.rouletteData = RouletteRuntimeData.fromJson(dataJson, this.assetLocalization);
 
         // dismiss working dialog
         this.runOnUiThread(this::dismissWorkingDialog);
@@ -525,7 +532,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public RouletteData getRouletteData() {
+    public RouletteRuntimeData getRouletteData() {
         return this.rouletteData;
     }
 

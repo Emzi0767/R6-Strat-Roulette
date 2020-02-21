@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.emzi0767.r6stratroulette.data.RandomizedOperator;
-import com.emzi0767.r6stratroulette.models.CtuData;
-import com.emzi0767.r6stratroulette.models.RouletteData;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeCTU;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeData;
 
 import java.io.File;
 
@@ -23,7 +23,7 @@ import java.io.File;
  * A simple {@link Fragment} subclass.
  */
 public class OperatorFragment extends Fragment {
-    private RouletteData rouletteData = null;
+    private RouletteRuntimeData rouletteData = null;
     private File assetLocation = null;
 
     private ImageView image = null;
@@ -79,7 +79,7 @@ public class OperatorFragment extends Fragment {
         File operatorImg = new File(this.assetLocation, op.getOperator().getIcon());
         Bitmap bmp = BitmapFactory.decodeFile(operatorImg.getAbsolutePath());
 
-        CtuData ctu = this.rouletteData.getCtus().get(op.getOperator().getCtu());
+        RouletteRuntimeCTU ctu = op.getOperator().getCTU();
 
         this.image.setImageBitmap(bmp);
         this.name.setText(op.getOperator().getName());

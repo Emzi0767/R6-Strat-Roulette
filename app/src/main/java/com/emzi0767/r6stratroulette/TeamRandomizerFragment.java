@@ -24,16 +24,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.emzi0767.r6stratroulette.models.OperatorData;
-import com.emzi0767.r6stratroulette.models.OperatorsData;
-import com.emzi0767.r6stratroulette.models.RouletteData;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeData;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeOperator;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeStrategy;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -43,11 +42,11 @@ import java.util.*;
  * A simple {@link Fragment} subclass.
  */
 public class TeamRandomizerFragment extends Fragment {
-    private RouletteData rouletteData = null;
+    private RouletteRuntimeData rouletteData = null;
     private File assetLocation = null;
-    private ArrayList<OperatorData> atks = null, defs = null;
+    private ArrayList<RouletteRuntimeOperator> atks = null, defs = null;
 
-    private OperatorData[] opsA = null, opsD = null;
+    private RouletteRuntimeOperator[] opsA = null, opsD = null;
 
     private ImageView[] imgAttackers = null, imgDefenders = null;
     private TextView[] nameAttackers = null, nameDefenders = null;
@@ -96,10 +95,8 @@ public class TeamRandomizerFragment extends Fragment {
 
         Button btn = v.findViewById(R.id.randomteam_randomize);
         btn.setOnClickListener(x -> {
-            OperatorsData ops = this.rouletteData.getOperators();
-
-            OperatorData[] atk = new OperatorData[5];
-            OperatorData[] def = new OperatorData[5];
+            RouletteRuntimeOperator[] atk = new RouletteRuntimeOperator[5];
+            RouletteRuntimeOperator[] def = new RouletteRuntimeOperator[5];
 
             this.randomizeOperators(atk, def);
             this.setOperators(atk, def);
@@ -126,13 +123,13 @@ public class TeamRandomizerFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    private void setOperators(OperatorData[] atk, OperatorData[] def) {
+    private void setOperators(RouletteRuntimeOperator[] atk, RouletteRuntimeOperator[] def) {
         this.opsA = atk;
         this.opsD = def;
 
         for (int i = 0; i < 5; i++) {
-            OperatorData atkT = atk[i];
-            OperatorData defT = def[i];
+            RouletteRuntimeOperator atkT = atk[i];
+            RouletteRuntimeOperator defT = def[i];
 
             this.nameAttackers[i].setText(atkT.getName());
             this.nameDefenders[i].setText(defT.getName());
@@ -148,10 +145,9 @@ public class TeamRandomizerFragment extends Fragment {
         }
     }
 
-    private void randomizeOperators(OperatorData[] atk, OperatorData[] def) {
-        OperatorsData ops = this.rouletteData.getOperators();
-        ArrayList<OperatorData> atks = new ArrayList<>(this.atks);
-        ArrayList<OperatorData> defs = new ArrayList<>(this.defs);
+    private void randomizeOperators(RouletteRuntimeOperator[] atk, RouletteRuntimeOperator[] def) {
+        ArrayList<RouletteRuntimeOperator> atks = new ArrayList<>(this.atks);
+        ArrayList<RouletteRuntimeOperator> defs = new ArrayList<>(this.defs);
 
         for (int i = 0; i < 5; i++) {
             int ra = this.rng.nextInt(atks.size());
@@ -172,37 +168,36 @@ public class TeamRandomizerFragment extends Fragment {
         SharedPreferences prefs = this.mainActivity.getSharedPreferences(this.getString(R.string.settings_filename), Context.MODE_PRIVATE);
         Set<String> disabledOps = prefs.getStringSet(SettingsActivity.DISABLED_OPS_KEY, new HashSet<>());
 
-        OperatorsData ops = this.rouletteData.getOperators();
-        List<OperatorData> xatks = ops.getAttackers();
-        List<OperatorData> xdefs = ops.getDefenders();
+        List<RouletteRuntimeOperator> xatks = this.rouletteData.getOperatorAttackers();
+        List<RouletteRuntimeOperator> xdefs = this.rouletteData.getOperatorDefenders();
         this.atks = new ArrayList<>();
         this.defs = new ArrayList<>();
 
-        for (OperatorData op : xatks)
+        for (RouletteRuntimeOperator op : xatks)
             if (!disabledOps.contains(op.getName()))
                 this.atks.add(op);
-        for (OperatorData op : xdefs)
+        for (RouletteRuntimeOperator op : xdefs)
             if (!disabledOps.contains(op.getName()))
                 this.defs.add(op);
 
-        OperatorData[] atk = null;
-        OperatorData[] def = null;
+        RouletteRuntimeOperator[] atk = null;
+        RouletteRuntimeOperator[] def = null;
 
         if (savedInstanceState != null && savedInstanceState.containsKey("ATTACKERS") && savedInstanceState.containsKey("DEFENDERS")) {
             List<String> atkN = Arrays.asList(savedInstanceState.getStringArray("ATTACKERS"));
             List<String> defN = Arrays.asList(savedInstanceState.getStringArray("DEFENDERS"));
 
-            atk = new OperatorData[5];
-            def = new OperatorData[5];
+            atk = new RouletteRuntimeOperator[5];
+            def = new RouletteRuntimeOperator[5];
 
             for (int i = 0; i < this.atks.size(); i++) {
-                OperatorData opT = this.atks.get(i);
+                RouletteRuntimeOperator opT = this.atks.get(i);
                 int j = atkN.indexOf(opT.getName());
                 if (j != -1)
                     atk[j] = opT;
             }
             for (int i = 0; i < this.defs.size(); i++) {
-                OperatorData opT = this.defs.get(i);
+                RouletteRuntimeOperator opT = this.defs.get(i);
                 int j = defN.indexOf(opT.getName());
                 if (j != -1)
                     def[j] = opT;
@@ -218,8 +213,8 @@ public class TeamRandomizerFragment extends Fragment {
         }
 
         if (atk == null || def == null) {
-            atk = new OperatorData[5];
-            def = new OperatorData[5];
+            atk = new RouletteRuntimeOperator[5];
+            def = new RouletteRuntimeOperator[5];
             this.randomizeOperators(atk, def);
         }
 

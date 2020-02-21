@@ -25,6 +25,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.emzi0767.r6stratroulette.models.*;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeData;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeStrategy;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeStrategyGameMode;
+import com.emzi0767.r6stratroulette.models.runtime.RouletteRuntimeStrategySide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +38,10 @@ import java.util.Random;
  * A simple {@link Fragment} subclass.
  */
 public class StrategyRouletteFragment extends Fragment {
-    private RouletteData rouletteData = null;
+    private RouletteRuntimeData rouletteData = null;
     private int strategyIndex = -1;
-    private String side = null, mode = null;
+    private RouletteRuntimeStrategySide side = null;
+    private RouletteRuntimeStrategyGameMode mode = null;
 
     private Spinner comboSide = null, comboMode = null;
     private TextView stratName = null, stratDesc = null;
@@ -53,34 +58,34 @@ public class StrategyRouletteFragment extends Fragment {
         MainActivity ac = (MainActivity)this.getActivity();
         this.rouletteData = ac.getRouletteData();
 
-        List<StrategyData> strats = this.rouletteData.getStrategies();
+        List<RouletteRuntimeStrategy> strats = this.rouletteData.getStrategies();
         int stratInd = -1;
 
         if (savedInstanceState != null && savedInstanceState.containsKey("STRATIND") && savedInstanceState.containsKey("STRATSIDE") && savedInstanceState.containsKey("STRATMODE")) {
             stratInd = savedInstanceState.getInt("STRATIND");
-            this.side = savedInstanceState.getString("STRATSIDE");
-            this.mode = savedInstanceState.getString("STRATMODE");
+            this.side = RouletteRuntimeStrategySide.fromValueSingle(savedInstanceState.getInt("STRATSIDE"));
+            this.mode = RouletteRuntimeStrategyGameMode.fromValueSingle(savedInstanceState.getInt("STRATMODE"));
 
             switch (this.side) {
-                case "atk":
+                case ATTACKERS:
                     this.comboSide.setSelection(1);
                     break;
 
-                case "def":
+                case DEFENDERS:
                     this.comboSide.setSelection(2);
                     break;
             }
 
             switch (this.mode) {
-                case "area":
+                case SECURE_AREA:
                     this.comboMode.setSelection(1);
                     break;
 
-                case "bomb":
+                case BOMB:
                     this.comboMode.setSelection(2);
                     break;
 
-                case "hostage":
+                case HOSTAGE:
                     this.comboMode.setSelection(3);
                     break;
             }
@@ -104,14 +109,14 @@ public class StrategyRouletteFragment extends Fragment {
         Button btn = v.findViewById(R.id.stratroulette_randomize);
         btn.setEnabled(false);
         btn.setOnClickListener(x -> {
-            List<StrategyData> strats = this.rouletteData.getStrategies();
-            ArrayList<StrategyData> stratsEligible = new ArrayList<>();
-            for (StrategyData strat : strats)
+            List<RouletteRuntimeStrategy> strats = this.rouletteData.getStrategies();
+            ArrayList<RouletteRuntimeStrategy> stratsEligible = new ArrayList<>();
+            for (RouletteRuntimeStrategy strat : strats)
                 if (strat.getSides().contains(this.side) && strat.getGameModes().contains(this.mode))
                     stratsEligible.add(strat);
 
             int i = this.rng.nextInt(stratsEligible.size());
-            StrategyData strat = stratsEligible.get(i);
+            RouletteRuntimeStrategy strat = stratsEligible.get(i);
             i = strats.indexOf(strat);
             this.setStrategy(i);
         });
@@ -134,11 +139,11 @@ public class StrategyRouletteFragment extends Fragment {
                         break;
 
                     case 1:
-                        StrategyRouletteFragment.this.side = "atk";
+                        StrategyRouletteFragment.this.side = RouletteRuntimeStrategySide.ATTACKERS;
                         break;
 
                     case 2:
-                        StrategyRouletteFragment.this.side = "def";
+                        StrategyRouletteFragment.this.side = RouletteRuntimeStrategySide.DEFENDERS;
                         break;
                 }
             }
@@ -168,15 +173,15 @@ public class StrategyRouletteFragment extends Fragment {
                         break;
 
                     case 1:
-                        StrategyRouletteFragment.this.mode = "area";
+                        StrategyRouletteFragment.this.mode = RouletteRuntimeStrategyGameMode.SECURE_AREA;
                         break;
 
                     case 2:
-                        StrategyRouletteFragment.this.mode = "bomb";
+                        StrategyRouletteFragment.this.mode = RouletteRuntimeStrategyGameMode.BOMB;
                         break;
 
                     case 3:
-                        StrategyRouletteFragment.this.mode = "hostage";
+                        StrategyRouletteFragment.this.mode = RouletteRuntimeStrategyGameMode.HOSTAGE;
                         break;
                 }
             }
@@ -197,8 +202,8 @@ public class StrategyRouletteFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (this.strategyIndex != -1 && this.side != null && this.mode != null) {
             outState.putInt("STRATIND", this.strategyIndex);
-            outState.putString("STRATSIDE", this.side);
-            outState.putString("STRATMODE", this.mode);
+            outState.putInt("STRATSIDE", this.side.getValue());
+            outState.putInt("STRATMODE", this.mode.getValue());
         }
 
         super.onSaveInstanceState(outState);
@@ -207,8 +212,8 @@ public class StrategyRouletteFragment extends Fragment {
     private void setStrategy(int index) {
         this.strategyIndex = index;
 
-        List<StrategyData> strats = this.rouletteData.getStrategies();
-        StrategyData strat = strats.get(index);
+        List<RouletteRuntimeStrategy> strats = this.rouletteData.getStrategies();
+        RouletteRuntimeStrategy strat = strats.get(index);
 
         this.stratName.setText(strat.getName());
         this.stratDesc.setText(strat.getDescription());
