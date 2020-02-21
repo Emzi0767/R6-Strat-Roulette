@@ -16,14 +16,12 @@ You need to have Internet connection available during first launch, so the appli
 its assets (icons and data). It will download approximately 2-3 MiB of data. If internet is 
 available on subsequent launches, it will check for updates for its assets.
 
-Finally, you need about 25 MiB of available space on your device, post-installation that drops down 
-to about 5 MiB.
+Finally, you need about 50 MiB of available space on your device, post-installation that drops down 
+to about 10 MiB.
 
 ### Permissions
 The application requires 4 permissions to run:
 * **Internet access** to download and update its assets
-* **Read external storage** to be able to load its own assets
-* **Write external storage** to be able to save its own assets
 * **Access network state** to check whether internet connection is available
 
 ## Installation

@@ -147,10 +147,7 @@ public class OperatorRandomizerFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        FragmentTransaction ft = this.getChildFragmentManager().beginTransaction();
-        for (Fragment f : this.getChildFragmentManager().getFragments())
-            ft.remove(f);
-        ft.commit();
+        outState.putInt("LAST_TAB", this.lastTab);
 
         if (this.opA != null && this.opD != null) {
             Bundle atkData = new Bundle();
@@ -175,6 +172,12 @@ public class OperatorRandomizerFragment extends Fragment {
     @Override
     public void onPause() {
         this.tabPager.setAdapter(null);
+
+        FragmentTransaction ft = this.getChildFragmentManager().beginTransaction();
+        for (Fragment f : this.getChildFragmentManager().getFragments())
+            ft.remove(f);
+        ft.commit();
+
         super.onPause();
     }
 
@@ -223,6 +226,9 @@ public class OperatorRandomizerFragment extends Fragment {
         RandomizedOperator atk = null, def = null;
 
         if (savedInstanceState != null && savedInstanceState.containsKey("ATTACKER") && savedInstanceState.containsKey("DEFENDER")) {
+            if (savedInstanceState.containsKey("LAST_TAB"))
+                this.lastTab = savedInstanceState.getInt("LAST_TAB");
+
             Bundle atkData = savedInstanceState.getBundle("ATTACKER");
             Bundle defData = savedInstanceState.getBundle("DEFENDER");
 
