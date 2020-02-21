@@ -1,5 +1,13 @@
 # Changelog for R6: Strat Roulette
 
+### v2.0.0-alpha1 (release: 2020-02-21 19:14 +01:00)
+- NEW: Updated the application for Year 5 onwards.
+- FIX: Fixed multiple crash bugs.
+  - Fixed application crashing when switching device orientation in Operator Randomizer 
+- NEW: Added missing credits.
+  - Linked to r6-operatoricons by marcopixel in About section.
+- FIX: Made credits links clickable.
+
 ### v1.4.0 (released: )
 - NEW: Updated Android targets and underlying libraries
 
