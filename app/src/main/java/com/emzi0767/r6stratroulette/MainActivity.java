@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String ASSETS_JSON_FILENAME = "assets-v2.json";
     public static final String DATA_JSON_FILENAME = "data-v2.json";
+
     private DrawerLayout mDrawerLayout;
     private int mActiveView = 0;
     private int grantedPermissions = 0;

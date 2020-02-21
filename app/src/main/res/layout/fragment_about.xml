@@ -65,6 +65,7 @@
             android:layout_marginRight="8dp" />
 
         <TextView
+            android:id="@+id/about_github"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -73,8 +74,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:autoLink="web"
-            android:linksClickable="true" />
+            android:textColorLink="@color/colorAccent" />
 
         <!-- <TextView
             android:layout_width="wrap_content"
@@ -153,6 +153,7 @@
             android:layout_marginRight="8dp" />
 
         <TextView
+            android:id="@+id/about_textview_strats_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_credits_strats_1"
@@ -160,11 +161,10 @@
             android:layout_marginTop="2dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:autoLink="web"
-            android:linksClickable="true"
             android:textColorLink="@color/colorAccent" />
 
         <TextView
+            android:id="@+id/about_textview_strats_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_credits_strats_2"
@@ -172,11 +172,10 @@
             android:layout_marginTop="2dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:autoLink="web"
-            android:linksClickable="true"
             android:textColorLink="@color/colorAccent" />
 
         <TextView
+            android:id="@+id/about_textview_strats_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_credits_strats_3"
@@ -184,8 +183,6 @@
             android:layout_marginTop="2dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:autoLink="web"
-            android:linksClickable="true"
             android:textColorLink="@color/colorAccent" />
 
         <TextView
@@ -199,6 +196,7 @@
             android:layout_marginRight="8dp" />
 
         <TextView
+            android:id="@+id/about_textview_icons_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_credits_icons_1"
@@ -206,8 +204,6 @@
             android:layout_marginTop="2dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:autoLink="web"
-            android:linksClickable="true"
             android:textColorLink="@color/colorAccent" />
 
     </LinearLayout>

@@ -17,6 +17,7 @@
 package com.emzi0767.r6stratroulette;
 
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -49,6 +50,21 @@ public class AboutFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_about, container, false);
+
+        TextView github = v.findViewById(R.id.about_github);
+        github.setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView strats1 = v.findViewById(R.id.about_textview_strats_1);
+        strats1.setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView strats2 = v.findViewById(R.id.about_textview_strats_2);
+        strats2.setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView strats3 = v.findViewById(R.id.about_textview_strats_3);
+        strats3.setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView icons1 = v.findViewById(R.id.about_textview_icons_1);
+        icons1.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Button supportPP = v.findViewById(R.id.btn_about_support_paypal);
         // supportPP.setOnClickListener(x -> {
