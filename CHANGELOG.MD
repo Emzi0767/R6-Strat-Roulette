@@ -1,5 +1,8 @@
 # Changelog for R6: Strat Roulette
 
+### v2.0.0-alpha2 (release: 2020-02-22 01:12 +01:00)
+- NEW: Updated icons to meet new Google specifications.
+
 ### v2.0.0-alpha1 (release: 2020-02-21 19:14 +01:00)
 - NEW: Updated the application for Year 5 onwards.
 - FIX: Fixed multiple crash bugs.
