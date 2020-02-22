@@ -23,8 +23,8 @@ android {
         applicationId "com.emzi0767.r6stratroulette"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 13
-        versionName "2.0.0-alpha3"
+        versionCode 14
+        versionName "2.0.0"
     }
     buildTypes {
         release {

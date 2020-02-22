@@ -1,6 +1,6 @@
 # Changelog for R6: Strat Roulette
 
-### v2.0.0-alpha3 (release: )
+### v2.0.0 (release: 2020-02-22 04:14 +01:00)
 - FIX: Settings no longer reopen after being closed when device orientation changes.
 - FIX: Various layout optimizations.
 
