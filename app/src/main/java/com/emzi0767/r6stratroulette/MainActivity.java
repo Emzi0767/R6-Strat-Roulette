@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawers();
 
             int vid = x.getItemId();
-            this.mActiveView = vid != R.id.nav_drawer_exit ? vid : this.mActiveView;
+            this.mActiveView = vid != R.id.nav_drawer_exit && vid != R.id.nav_drawer_settings ? vid : this.mActiveView;
             this.setView(vid, actionBar);
 
             return true;

@@ -122,20 +122,6 @@ public class OperatorRandomizerFragment extends Fragment {
             }
         });
 
-        for (int i = 0; i < this.tabs.getTabCount(); i++) {
-            TabLayout.Tab t = this.tabs.getTabAt(i);
-            assert t != null;
-
-            t.setCustomView(R.layout.layout_tab);
-            if (i == 0) {
-                t.setText(R.string.randomop_lbl_attacker);
-                t.setIcon(R.drawable.ic_sword);
-            } else {
-                t.setText(R.string.randomop_lbl_defender);
-                t.setIcon(R.drawable.ic_shield);
-            }
-        }
-
         Button btn = v.findViewById(R.id.randomop_randomize);
         btn.setOnClickListener(b -> {
             Pair<RandomizedOperator, RandomizedOperator> rops = this.getRandomOperators(this.opA.getOperator(), this.opD.getOperator());

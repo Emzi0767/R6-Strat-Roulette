@@ -204,6 +204,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginBottom="16dp"
             android:textColorLink="@color/colorAccent" />
 
     </LinearLayout>

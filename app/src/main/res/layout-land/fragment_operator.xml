@@ -82,7 +82,7 @@
             android:text="@string/randomop_lbl_weapon2"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="4dp" />
 
         <TextView
             android:id="@+id/randomop_weapon2"
@@ -97,7 +97,7 @@
             android:text="@string/randomop_lbl_gadget"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="4dp" />
 
         <TextView
             android:id="@+id/randomop_gadget"

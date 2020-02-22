@@ -36,14 +36,14 @@
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/randomop_lbl_attacker"
             android:icon="@drawable/ic_sword"
             android:layout="@layout/layout_tab" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/randomop_lbl_defender"
             android:icon="@drawable/ic_shield"
             android:layout="@layout/layout_tab" />
